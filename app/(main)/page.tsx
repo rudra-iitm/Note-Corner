@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import img2 from "@/public/img3.png";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
+import { SidebarDrawer } from "@/components/SidebarDrawer";
 
 export default function Home() {
   
@@ -75,6 +76,7 @@ export default function Home() {
   },[])
   return (
     <div className="h-[100rem] w-full flex flex-col justify-start items-center pt-2 overflow-x-hidden">
+      <SidebarDrawer urll="#"/>
     <motion.div className='flex flex-row overflow-x-hidden overflow-y-hidden h-[39rem] -z-10' id='inner'>
     <motion.div className="flex flex-col gap-7 items-center justify-center px-4 w-1/2 h-full" id='textEl'
         initial={{

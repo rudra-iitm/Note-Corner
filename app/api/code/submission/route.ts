@@ -19,19 +19,22 @@ export async function POST(req: NextRequest) {
         const { sourceCode, languageId, input } = await req.json();
 
         console.log( languageId, input);
-        console.log(JSON.stringify(sourceCode));
+        console.log(sourceCode);
+        // const sourceCodeBase64 = Buffer.from(sourceCode).toString('base64');
+        const inputBase64 = Buffer.from(input).toString('base64');
+        // console.log(sourceCodeBase64, inputBase64);
+      
 
         console.log(process.env.JUDGE0_API_KEY, process.env.JUDGE0_API_HOST);
 
         const options = {
             method: 'POST',
             url: 'https://judge0-ce.p.rapidapi.com/submissions',
-            // params: {
-            //   base64_encoded: 'true',
-            //   fields: '*'
-            // },
+            params: {
+              base64_encoded: 'true',
+              fields: '*'
+            },
             headers: {
-              // 'content-type': 'application/json',
               'Content-Type': 'application/json',
               'X-RapidAPI-Key':  process.env.JUDGE0_API_KEY,
               'X-RapidAPI-Host': process.env.JUDGE0_API_HOST
@@ -39,7 +42,7 @@ export async function POST(req: NextRequest) {
             data: {
               language_id: languageId,
               source_code: sourceCode,
-              stdin: input
+              stdin: inputBase64
             }
           };
 
@@ -47,9 +50,8 @@ export async function POST(req: NextRequest) {
         console.log(response.data);
 
         return NextResponse.json({
-            data: response.data,
+            data: 'response.data',
         });
-
 
     } catch(err) {
         return NextResponse.json({

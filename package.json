@@ -35,6 +35,7 @@
     "next-auth": "^4.24.7",
     "prisma": "^5.12.1",
     "react": "^18",
+    "react-chat-elements": "^12.0.14",
     "react-dom": "^18",
     "react-google-recaptcha": "^3.1.0",
     "react-hook-form": "^7.51.3",
