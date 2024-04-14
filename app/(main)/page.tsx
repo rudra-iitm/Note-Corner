@@ -6,6 +6,7 @@ import img2 from "@/public/img3.png";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { SidebarDrawer } from "@/components/SidebarDrawer";
+import { ChatBot } from "@/components/ChatBot";
 
 export default function Home() {
   
@@ -112,6 +113,7 @@ export default function Home() {
       </motion.div>
     </motion.div>
     <TypewriterEffectSmooth words={words} className="pb-0"/>
+    <ChatBot/>
     </div>
   );
 }
