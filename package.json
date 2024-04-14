@@ -20,6 +20,7 @@
     "@radix-ui/react-toast": "^1.1.5",
     "@tabler/icons-react": "^3.2.0",
     "@types/bcrypt": "^5.0.2",
+    "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
