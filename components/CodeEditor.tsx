@@ -15,7 +15,6 @@ import { langs } from './data';
 import axios from 'axios';
 import cheerio from 'cheerio';
 
-
 const CodeEditor = () => {
   const [editorContent, setEditorContent] = useState('');
   const [token, setToken] = useState('');
@@ -24,8 +23,7 @@ const CodeEditor = () => {
   const handleEditorChange = (value: string) => {
     setEditorContent(value);
   };
-  const [result, setResult] = useState('');
-  const [input , setInput] = useState('');
+  const [terminalContent, setTerminalContent] = useState('');
   const modules = {
     toolbar: [
       ['code-block'],
@@ -40,28 +38,30 @@ const CodeEditor = () => {
     const preContent = $('pre').text();
     const preContentBase64 = Buffer.from(preContent).toString('base64');
     const { data : { data : { token } } } = await axios.post('http://localhost:3000/api/code/submission', {
-      // languageId: lang,
-      // sourceCode: JSON.stringify(preContent),
-      // input,
       languageId: lang,
-        sourceCode: preContentBase64,
-        input: "hello world"
+      sourceCode: preContentBase64,
+      input: terminalContent,
     },{
       headers: {
         'Content-Type': 'application/json'
       }
     });
-    console.log("token",token);
     setToken(token);
   }
 
   const pollResponse = async (token : string) => {
-    const { data } = await axios.get(`http://localhost:3000/api/code/submission/${token}`,{
+    const { data : { data : { stdout } } } = await axios.get(`http://localhost:3000/api/code/submission/${token}`,{
       headers: {
         'Content-Type': 'application/json'
       }
     });
-    console.log("data",data);
+    if (stdout) {
+      if (stdout.charAt(stdout.length - 1) === '\n') {
+        setTerminalContent(prev => prev+atob(stdout.slice(0, -1)));
+      } else {
+        setTerminalContent(prev => prev+atob(stdout));
+      }
+    }
   }
 
   useEffect(() => {
@@ -72,23 +72,6 @@ const CodeEditor = () => {
       return () => clearTimeout(interval);
     }
   }, [token]);
-
-  const sendInput = async () => {
-    const options = {
-      method: 'POST',
-      url: 'http://localhost:3000/api/code/submission',
-      data: {
-        // languageId: lang,
-        // sourceCode: JSON.stringify(editorContent),
-        // input: input
-        languageId: lang,
-        sourceCode: preContent,
-        input: "hello world"
-      }
-    };
-    const response = await axios.request(options);
-    console.log(response.data);
-  }
 
   return (
     <div className='relative w-full h-auto flex flex-col text-white'>
@@ -116,14 +99,13 @@ const CodeEditor = () => {
         className='w-full flex-grow px-3 py-5 text-white mb-0'
       />
       <textarea
-        value={result}
+        value={terminalContent}
         onChange={(e) => {
-          setInput(prev => prev+e.target.value.charAt(e.target.value.length-1));
-          setResult(e.target.value);
+          setTerminalContent(e.target.value);
         }}
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
-            setInput(prev => prev+'\n');
+            setTerminalContent(prev => prev+'\n');
           }
         }}
         className=' bg-slate-900 text-white rounded-2xl w-[98%] mx-auto resize-x-none p-3 mt-3 min-h-[150px] max-h-[200px] h-auto overflow-y-visible'
