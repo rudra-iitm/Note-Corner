@@ -4,28 +4,32 @@ import "react-chat-elements/dist/main.css"
 import MessageComponent from './MessageComponent';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
-
-
+import { Card, CardContent, CardHeader } from './ui/card';
+import { RiRobot2Fill } from "react-icons/ri";
 
 const Chat_ai = () => {
   const [message, setMessage] = useState('');
   return (
-    <div className='flex flex-col w-full h-screen items-center justify-center space-y-5 z-10 bg-white fixed'>
-      <h1 className="text-black dark:text-white font-mono font-extrabold text-3xl fixed top-8">Chat With Our AI</h1>
-      <div className='overflow-auto flex flex-col space-y-5 h-4/6 pb-4 border-2 p-4 rounded-lg'>
-        <MessageComponent chatofuser={true} content='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaHello, world!Hello, world!Hello, world!Hello, world!Hello, world!'/>
-        <MessageComponent chatofuser={true} content='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaHello, world!'/>
-        <MessageComponent chatofuser={false} content='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaHello, world!'/>
-        <MessageComponent chatofuser={true} content='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaHello, world!'/>
-        <MessageComponent chatofuser={false} content='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaHello, world!'/>
-        <MessageComponent chatofuser={false} content='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaHello, world!'/>
-      </div>
-      <div className='w-2/5 bottom-0 fixed pb-10'>
-        <div className='flex flex-row space-x-2'>
-          <Input placeholder='Type here...' className='rounded-lg border border-zinc-400 w-full' type='search' onChange={(e)=>setMessage(e.target.value)}/>
-          <Button className='bg-zinc-400 text-white rounded-lg w-20' onSubmit={()=>{console.log(message);}}>Send</Button>
+    <div className="mt-20 max-h-full grid p-4 gap-4 items-center">
+      <Card className="w-full max-w-3xl mx-auto">
+      <CardHeader className="rounded-t-lg">
+          <h2 className="text-xl font-bold">Chat with our AI</h2>
+        </CardHeader>
+        <CardContent className="p-0">
+          <div className="flex flex-col gap-4 p-4">
+            <MessageComponent chatofuser={true} content='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaHello, world!Hello, world!Hello, world!Hello, world!Hello, world!'/>
+            <MessageComponent chatofuser={true} content='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaHello, world!'/>
+            <MessageComponent chatofuser={false} content='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaHello, world!'/>
+            <MessageComponent chatofuser={true} content='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaHello, world!'/>
+          </div>
+          <div className="flex items-end gap-4 m-4">
+            <Input className="flex-1 rounded-lg p-4" placeholder="Enter your message" type="text" />
+            <Button className="rounded-full w-20 h-10">
+                <span>Ask AI</span>
+            </Button>
         </div>
-      </div>   
+        </CardContent>
+      </Card>
     </div>
   )
 }
