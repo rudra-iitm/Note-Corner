@@ -5,10 +5,6 @@ import bcrypt from "bcrypt";
 
 export const authOptions = {
     providers: [
-    GoogleProvider({
-        clientId: process.env.GOOGLE_CLIENT_ID!,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET!
-    }),
     CredentialsProvider({
         name: 'Credentials',
         credentials: {
@@ -16,7 +12,7 @@ export const authOptions = {
             password: { label: "Password", type: "password" }
         },
         async authorize(credentials: any) {
-            const hashedPassword = await  bcrypt.hash(credentials.password, 10);
+            console.log(credentials);
             const existingUser = await client.user.findFirst({
                 where: {
                     email: credentials.email,
@@ -36,17 +32,6 @@ export const authOptions = {
                 return {id: existingUser.id, email: existingUser.email};
             } 
 
-            try {
-                const newUser = await client.user.create({
-                    data: {
-                        email: credentials.email,
-                        password: hashedPassword,
-                    }
-                });
-                return {id: newUser.id, email: newUser.email};
-            } catch (error) {
-                console.log(error);
-            }
             return null;
         },  
     })

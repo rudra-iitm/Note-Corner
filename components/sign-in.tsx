@@ -10,8 +10,11 @@ import { Toaster } from "./ui/toaster";
 // import { toast } from "sonner";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useToast } from "./ui/use-toast";
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 export function SignIn() {
+  const router = useRouter();
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [confirmPassword, setConfirmPassword] = React.useState<string>("");
@@ -19,9 +22,7 @@ export function SignIn() {
   const { toast } = useToast();
   const handleSubmit =async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    toast({
-      title: "Sign in successful!",
-    })
+    
     if(password!==confirmPassword){
       toast({
         title: "Password does not match",
@@ -29,6 +30,26 @@ export function SignIn() {
       })
       return;
     }
+    if(captcha===""){
+      toast({
+        title: "Please verify captcha",
+        variant: "destructive",
+      })
+      return;
+    }
+    const res = await signIn('credentials', {
+      email,
+      password,
+      redirect: false,
+    });
+
+    toast({
+      title: "Sign in successful!",
+    })
+    
+    router.push('/');
+
+    
   };
   return (
     <div className="h-full w-full pb-4 overflow-x-hidden dark:bg-black my-auto flex flex-col justify-center">

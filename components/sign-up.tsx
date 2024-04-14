@@ -8,6 +8,7 @@ import { Input } from "./ACui/input";
 import { cn } from "@/utils/cn";
 import { Toaster } from "./ui/toaster";
 import { toast } from "sonner";
+import { signup } from "@/actions/user";
 
 export function SignUp() {
   const [email, setEmail] = React.useState<string>("");
@@ -19,6 +20,7 @@ export function SignUp() {
       "Verifying User, Please Wait...",
     );
     if(password!==confirmPassword){toast.error("Passwords do not match", { id: toastId });}
+    await signup(email, password);
     const data={'email':email,'password':password};
     console.log("Form submitted");
   };
