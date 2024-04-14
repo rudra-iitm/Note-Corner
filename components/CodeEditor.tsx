@@ -38,13 +38,13 @@ const CodeEditor = () => {
   const runCode = async () => {
     const $ = cheerio.load(editorContent);
     const preContent = $('pre').text();
+    const preContentBase64 = Buffer.from(preContent).toString('base64');
     const { data : { data : { token } } } = await axios.post('http://localhost:3000/api/code/submission', {
       // languageId: lang,
       // sourceCode: JSON.stringify(preContent),
       // input,
-      languageId: 50,
-        sourceCode: JSON.stringify("#include <stdio.h>\n\nint main(void) {\n  char name[10];\n  scanf(\"%s\", name);\n  printf(\"hello, %s\n\", name);\n  return 0;\n}"),
-        
+      languageId: lang,
+        sourceCode: preContentBase64,
         input: "hello world"
     },{
       headers: {
@@ -81,8 +81,8 @@ const CodeEditor = () => {
         // languageId: lang,
         // sourceCode: JSON.stringify(editorContent),
         // input: input
-        languageId: 50,
-        sourceCode: "#include <stdio.h>\n\nint main(void) {\n  char name[10];\n  scanf(\"%s\", name);\n  printf(\"hello, %s\n\", name);\n  return 0;\n}",
+        languageId: lang,
+        sourceCode: preContent,
         input: "hello world"
       }
     };
