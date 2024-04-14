@@ -2,8 +2,9 @@
 import { useEffect, useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import Sidebar from "./Sidebar";
+import { useRouter } from "next/router";
 
-export const SidebarDrawer = () => {
+export const SidebarDrawer = ({urll}:{urll:string}) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
@@ -52,7 +53,7 @@ export const SidebarDrawer = () => {
         tabIndex={-1}
         aria-labelledby="drawer-label"
     >
-        <Sidebar toggleDrawer={toggleDrawer}/>
+        <Sidebar toggleDrawer={toggleDrawer} urll={urll}/>
       </div>
     </>
   );
