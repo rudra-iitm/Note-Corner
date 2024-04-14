@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'quill/dist/quill.snow.css'; // Or your desired theme CSS
 import {
@@ -18,6 +18,7 @@ import cheerio from 'cheerio';
 
 const CodeEditor = () => {
   const [editorContent, setEditorContent] = useState('');
+  const [token, setToken] = useState('');
   
   const [lang, setLang] = useState('');
   const handleEditorChange = (value: string) => {
@@ -34,9 +35,64 @@ const CodeEditor = () => {
     },
   };
 
+  const runCode = async () => {
+    const $ = cheerio.load(editorContent);
+    const preContent = $('pre').text();
+    const { data : { data : { token } } } = await axios.post('http://localhost:3000/api/code/submission', {
+      // languageId: lang,
+      // sourceCode: JSON.stringify(preContent),
+      // input,
+      languageId: 50,
+        sourceCode: JSON.stringify("#include <stdio.h>\n\nint main(void) {\n  char name[10];\n  scanf(\"%s\", name);\n  printf(\"hello, %s\n\", name);\n  return 0;\n}"),
+        
+        input: "hello world"
+    },{
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    console.log("token",token);
+    setToken(token);
+  }
+
+  const pollResponse = async (token : string) => {
+    const { data } = await axios.get(`http://localhost:3000/api/code/submission/${token}`,{
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    console.log("data",data);
+  }
+
+  useEffect(() => {
+    if(token) {
+      const interval = setTimeout(() => {
+        pollResponse(token);
+      }, 10000);
+      return () => clearTimeout(interval);
+    }
+  }, [token]);
+
+  const sendInput = async () => {
+    const options = {
+      method: 'POST',
+      url: 'http://localhost:3000/api/code/submission',
+      data: {
+        // languageId: lang,
+        // sourceCode: JSON.stringify(editorContent),
+        // input: input
+        languageId: 50,
+        sourceCode: "#include <stdio.h>\n\nint main(void) {\n  char name[10];\n  scanf(\"%s\", name);\n  printf(\"hello, %s\n\", name);\n  return 0;\n}",
+        input: "hello world"
+      }
+    };
+    const response = await axios.request(options);
+    console.log(response.data);
+  }
+
   return (
     <div className='relative w-full h-auto flex flex-col text-white'>
-      <Select>
+      <Select onValueChange={(value) => setLang(value)}>
         <SelectTrigger className="w-[180px] h-[30px] absolute top-[26.5px] right-5 text-black">
           <SelectValue placeholder="Select Language" />
         </SelectTrigger>
@@ -44,10 +100,6 @@ const CodeEditor = () => {
           {langs.map((item) => (
             <SelectItem
               key={item.id}
-              onClick={() => {
-                console.log(item.id);
-                setLang(item.id.toString());
-              }}
               value={item.id.toString()}
             >
               {item.name}
@@ -69,25 +121,15 @@ const CodeEditor = () => {
           setInput(prev => prev+e.target.value.charAt(e.target.value.length-1));
           setResult(e.target.value);
         }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            setInput(prev => prev+'\n');
+          }
+        }}
         className=' bg-slate-900 text-white rounded-2xl w-[98%] mx-auto resize-x-none p-3 mt-3 min-h-[150px] max-h-[200px] h-auto overflow-y-visible'
       />
       <div className='flex justify-end'>
-        <Button className='mt-3 w-32 rounded-xl mr-2' onClick={async () => {
-          const $ = cheerio.load(editorContent);
-          const preContent = $('pre').text();
-          const options = {
-            method: 'POST',
-            url: 'http://localhost:3000/api/code/submission',
-            data: {
-              languageId: lang,
-              sourceCode: JSON.stringify(preContent),
-              input: input
-            }
-          };
-          console.log(lang, input);
-          // const response = await axios.request(options);
-          // console.log(response.data);
-        }}>
+        <Button className='mt-3 w-32 rounded-xl mr-2' onClick={runCode}>
           Run Code
         </Button>
       </div>

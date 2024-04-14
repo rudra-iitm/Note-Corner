@@ -26,12 +26,12 @@ export async function POST(req: NextRequest) {
         const options = {
             method: 'POST',
             url: 'https://judge0-ce.p.rapidapi.com/submissions',
-            params: {
-              base64_encoded: 'true',
-              fields: '*'
-            },
+            // params: {
+            //   base64_encoded: 'true',
+            //   fields: '*'
+            // },
             headers: {
-              'content-type': 'application/json',
+              // 'content-type': 'application/json',
               'Content-Type': 'application/json',
               'X-RapidAPI-Key':  process.env.JUDGE0_API_KEY,
               'X-RapidAPI-Host': process.env.JUDGE0_API_HOST
