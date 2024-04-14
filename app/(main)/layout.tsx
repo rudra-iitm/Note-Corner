@@ -1,3 +1,4 @@
+import { ChatBot } from '@/components/ChatBot';
 import Navbar from '@/components/Navbar';
 import { FC, ReactNode } from 'react';
 
