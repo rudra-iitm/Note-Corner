@@ -15,10 +15,11 @@ export async function GET(req: NextRequest, {params: { submissionId }}: {params:
             },
             headers: {
               'X-RapidAPI-Key': process.env.JUDGE0_API_KEY,
-              'X-RapidAPI-Host': process.env.JUDGE0_API_HOST
+              'X-RapidAPI-Host': process.env.JUDGE0_API_HOST,
+              'Content-Type': 'application/json'
             }
           };
-
+        
         const response = await axios.request(options);
 
         console.log(response.data);
