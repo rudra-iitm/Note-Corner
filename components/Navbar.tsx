@@ -11,7 +11,7 @@ const Navbar = () => {
 
   const [active, setActive] = useState<string | null>(null);
     return (
-        <div className="fixed top-6 inset-x-0 max-w-md mx-auto ">
+        <div className="fixed top-6 inset-x-0 max-w-md mx-auto">
         <Menu setActive={setActive}>
           <MenuItem setActive={setActive} active={active} item="Features">
             <div className="flex flex-col space-y-4 text-sm">
