@@ -2,27 +2,33 @@
 import {
   IconBrandGoogle,
 } from "@tabler/icons-react";
-import React from "react";
+import React, { use } from "react";
 import { Label } from "./ACui/label";
 import { Input } from "./ACui/input";
 import { cn } from "@/utils/cn";
 import { Toaster } from "./ui/toaster";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import ReCAPTCHA from "react-google-recaptcha";
+import { useToast } from "./ui/use-toast";
 
 export function SignIn() {
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [confirmPassword, setConfirmPassword] = React.useState<string>("");
   const [captcha, setCaptcha] = React.useState<string>("");
+  const { toast } = useToast();
   const handleSubmit =async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const toastId = toast.loading(
-      "Verifying User, Please Wait...",
-    );
-    if(password!==confirmPassword){toast.error("Passwords do not match", { id: toastId });}
-    const data={'email':email,'password':password};
-    console.log(data);
+    toast({
+      title: "Sign in successful!",
+    })
+    if(password!==confirmPassword){
+      toast({
+        title: "Password does not match",
+        variant: "destructive",
+      })
+      return;
+    }
   };
   return (
     <div className="h-full w-full pb-4 overflow-x-hidden dark:bg-black my-auto flex flex-col justify-center">
