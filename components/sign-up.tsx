@@ -8,13 +8,11 @@ import { Input } from "./ACui/input";
 import { cn } from "@/utils/cn";
 import { Toaster } from "./ui/toaster";
 import { toast } from "sonner";
-import ReCAPTCHA from "react-google-recaptcha";
 
-export function SignIn() {
+export function SignUp() {
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [confirmPassword, setConfirmPassword] = React.useState<string>("");
-  const [captcha, setCaptcha] = React.useState<string>("");
   const handleSubmit =async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const toastId = toast.loading(
@@ -22,7 +20,7 @@ export function SignIn() {
     );
     if(password!==confirmPassword){toast.error("Passwords do not match", { id: toastId });}
     const data={'email':email,'password':password};
-    console.log(data);
+    console.log("Form submitted");
   };
   return (
     <div className="h-full w-full pb-4 overflow-x-hidden dark:bg-black my-auto flex flex-col justify-center">
@@ -33,7 +31,7 @@ export function SignIn() {
         Welcome to Note Corner
       </h2>
       <p className="max-w-sm mt-2 dark:text-neutral-300 text-center">
-        Login To Your Account
+        Create Your Account
       </p>
       <form className="my-4" onSubmit={handleSubmit}>
         <LabelInputContainer className="mb-4">
@@ -69,14 +67,12 @@ export function SignIn() {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </LabelInputContainer>
-        <div className="pb-4 relative"><ReCAPTCHA sitekey="6Ldb27UpAAAAAAHBHAPEVKlq1FM3zlQdo1i6iD-O" onChange={(val)=>{setCaptcha(val || "")}}></ReCAPTCHA></div>
 
         <button
           className="bg-gradient-to-br relative group/btn from-blue-500 dark:from-zinc-900 dark:to-zinc-900 to-blue-600 block dark:bg-zinc-800 w-full text-white h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] rounded-md disabled:opacity-50"
           type="submit"
-          disabled={captcha===""}
         >
-          Login &rarr;
+          Sign up &rarr;
           <BottomGradient />
         </button>
         <div className="w-full justify-center items-center flex flex-row">
@@ -86,7 +82,7 @@ export function SignIn() {
             type="submit"
             onClick={()=>{}}
           >
-            Sign up &rarr;
+            Login &rarr;
             <BottomGradient />
           </button>
         </div>
@@ -104,10 +100,9 @@ export function SignIn() {
     </span>
     <BottomGradient />
     </button>
-  </div>
+    </div>
+    </div></div>
     <Toaster/>
-    </div>
-    </div>
     </div>
   );
 }
