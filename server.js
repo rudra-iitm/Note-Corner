@@ -18,16 +18,26 @@ app.prepare().then(() => {
   const io = new Server(httpServer);
 
   io.on("connection", (socket) => {
-    socket.on("invite", (data) => {
+    socket.on("invite", async (data) => {
       const { senderEmail, receiverEmail, receiverId, docId } = data;
       io.to(receiverId).emit("invite", { senderEmail, receiverEmail, docId });
+      await axios.post("http://localhost:3000/api/user/invite", {
+        senderEmail,
+        receiverEmail,
+        docId,
+      });
     });
-    socket.on("accept", (data) => {
+    socket.on("accept", async (data) => {
       const { senderEmail, receiverEmail, senderId, receiverId, docId } = data;
       const room = docId;
       socket.join(room);
       io.sockets.sockets.get(receiverId).join(room);
       io.to(senderId).emit("accept", { senderEmail, receiverEmail });
+      await axios.post("http://localhost:3000/api/user/accept", {
+        senderEmail,
+        receiverEmail,
+        docId,
+      });
     });
     socket.on("editing", (data) => {
       const { docId, editorId, text } = data;
@@ -40,7 +50,6 @@ app.prepare().then(() => {
 
   httpServer
     .once("error", (err) => {
-      // console.log("error aagaya hai")
       console.error(err);
       process.exit(1);
     })
