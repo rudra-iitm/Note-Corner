@@ -1,7 +1,7 @@
 "use client";
 import  { useState } from "react";
 import { HoveredLink, Menu, MenuItem} from "./ACui/navbar-menu";
-
+import { signOut } from "next-auth/react";
 import { Dock, Lock, LogIn, LogOutIcon, PlusSquare, Settings, SparkleIcon, UserIcon, UserPlus } from "lucide-react";
 import { IconBrandTeams, IconBrandWikipedia } from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
@@ -9,7 +9,8 @@ import { useSession } from "next-auth/react";
 const Navbar = () => {
   // const [userDet,setUserDet]=useState("not authorised");
   const {status, data} = useSession();
-  
+
+
   const [active, setActive] = useState<string | null>(null);
     return (
         <div className="fixed top-6 inset-x-0 max-w-md mx-auto">
@@ -31,10 +32,9 @@ const Navbar = () => {
           status==="authenticated" ? 
           <MenuItem setActive={setActive} active={active} item="Account">
             <div className="flex flex-col space-y-4 text-sm">
-              <HoveredLink href="/dashboard"><div className="flex flex-row space-x-2"><UserIcon className="h-5 w-4"/> <h1>My Account</h1></div></HoveredLink>
-              <HoveredLink href="/passenger"><div className="flex flex-row space-x-2"><Settings className="h-5 w-4"/> <h1>Setting</h1></div></HoveredLink>
+              <HoveredLink href="/profile"><div className="flex flex-row space-x-2"><UserIcon className="h-5 w-4"/> <h1>My Account</h1></div></HoveredLink>
+              <HoveredLink href="/settings"><div className="flex flex-row space-x-2"><Settings className="h-5 w-4"/> <h1>Setting</h1></div></HoveredLink>
               <HoveredLink href="/reset-password"><div className="flex flex-row space-x-2"><Lock className="h-5 w-4"/> <h1>Change Password</h1></div></HoveredLink>
-              <HoveredLink href="/signout"><div className="flex flex-row space-x-2"><LogOutIcon className="h-5 w-4"/> <h1>Logout</h1></div></HoveredLink>
             </div>
           </MenuItem>
           :

@@ -5,25 +5,61 @@ import {
 import React from "react";
 import { Label } from "./ACui/label";
 import { Input } from "./ACui/input";
-import { cn } from "@/utils/cn";
 import { Toaster } from "./ui/toaster";
-import { toast } from "sonner";
+import { cn } from "@/utils/cn";
 import { signup } from "@/actions/user";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { useToast } from "./ui/use-toast";
 
 export function SignUp() {
   const router = useRouter();
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [confirmPassword, setConfirmPassword] = React.useState<string>("");
+  const { toast } = useToast();
   const handleSubmit =async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const toastId = toast.loading(
-      "Verifying User, Please Wait...",
-    );
-    if(password!==confirmPassword){toast.error("Passwords do not match", { id: toastId });}
-    await signup(email, password);
-    const data={'email':email,'password':password};
+    toast({
+      title: "Creating Account,Please Wait...",
+    })
+    if(password!==confirmPassword){
+      toast({
+        title: "Password and Confirm Password doesn't match.",
+        variant: "destructive",
+      })
+      return;}
+      try {
+        const res=await signup(email, password);
+        console.log(res);
+        // if(res && res.error){
+        //   toast({
+        //     title: "Sign in failed!",
+        //     variant: "destructive",
+        //   })
+  
+      } catch (err) {
+        console.log(err);
+        toast({
+          title: "Sign Up failed! Probably account already exists. Please sign in.",
+          variant: "destructive",
+        })
+        return ;
+      }
+      toast({
+        title: "Sign Up successful!",
+      })
+      router.push('/sign-in');
+      // toast({
+      //   title: "Please verify captcha",
+      //   variant: "destructive",
+      // })
+      // const toastId = toast.loading(
+        //   "Verifying User, Please Wait...",
+        // );
+        // await signup(email, password);
+        // const data={'email':email,'password':password};
+        
     console.log("Form submitted");
   };
   return (
@@ -108,8 +144,8 @@ export function SignUp() {
     </button>
     </div>
     </div>
-  </div>
   <Toaster/>
+  </div>
   </div>
   );
 }

@@ -17,19 +17,10 @@ export function SignIn() {
   const router = useRouter();
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
-  const [confirmPassword, setConfirmPassword] = React.useState<string>("");
   const [captcha, setCaptcha] = React.useState<string>("");
   const { toast } = useToast();
   const handleSubmit =async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    if(password!==confirmPassword){
-      toast({
-        title: "Password does not match",
-        variant: "destructive",
-      })
-      return;
-    }
     if(captcha===""){
       toast({
         title: "Please verify captcha",
@@ -37,39 +28,46 @@ export function SignIn() {
       })
       return;
     }
-    const res = await signIn('credentials', {
-      email,
-      password,
-      redirect: false,
-    });
-
-    console.log(res);
-
-    if(res && res.error){
+    try {
+      const res = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+      });
+      console.log(res);
+      if(res && res.error){
+        toast({
+          title: "Sign in failed!",
+          variant: "destructive",
+        })
+        return;
+      }
+  
+      if(!res) {
+        toast({
+          title: "Account not found! Please sign up.",
+          variant: "destructive",
+        })
+      }
+      
+    } catch (err) {
+      console.log(err);
       toast({
         title: "Sign in failed!",
         variant: "destructive",
       })
       return;
-    }
-
-    if(!res) {
-      toast({
-        title: "Account not found! Please sign up.",
-        variant: "destructive",
-      })
-      return;
-    }
-
+    }   
+    
     toast({
       title: "Sign in successful!",
     })
-    
     router.push('/');
+    
     
   };
   return (
-    <div className="h-screen min-h-[50rem] w-full pb-4 overflow-x-hidden dark:bg-black my-auto flex flex-col justify-center">
+    <div className="h-screen min-h-[42rem] w-full pb-4 overflow-x-hidden dark:bg-black my-auto flex flex-col justify-center">
     <div className="flex flex-col">
       <div className="h-4"></div>
     <div className="max-w-md w-full mx-auto rounded-none md:rounded-md p-4 md:p-8 shadow-input dark:bg-zinc-900 border">
@@ -100,17 +98,6 @@ export function SignIn() {
           className="rounded-md"
           required
           onChange={(e) => setPassword(e.target.value)}
-          />
-        </LabelInputContainer>
-        <LabelInputContainer className="mb-8">
-          <Label htmlFor="confirmpassword" className="dark:text-white">Confirm password</Label>
-          <Input
-            id="confirm-password"
-            placeholder="••••••••"
-            type="password"
-            className="rounded-md"
-            required
-            onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </LabelInputContainer>
         <div className="pb-4 relative"><ReCAPTCHA sitekey="6Ldb27UpAAAAAAHBHAPEVKlq1FM3zlQdo1i6iD-O" onChange={(val)=>{setCaptcha(val || "")}}></ReCAPTCHA></div>

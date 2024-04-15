@@ -29,16 +29,20 @@ const Page = () => {
       },
       ...prev
     ])
+    await axios.post("/api/todos", {todos: todos})
   }
 
-  const deleteTodo = (id: number): void => {
+  const deleteTodo = async (id: number) => {
     setTodos(prev => prev.filter(thisTodo => thisTodo.id !== id))
+    await axios.post("/api/todos", {todos: todos})
   }
-  const updateTodo = (todo : string, id : number) => {
+  const updateTodo = async (todo : string, id : number) => {
     setTodos(prev => prev.map(thisTodo => thisTodo.id === id ? {...thisTodo, todo : todo} : thisTodo));
+    await axios.post("/api/todos", {todos: todos})
   }
-  const toggleComplete = (id : number) => {
+  const toggleComplete = async (id : number) => {
     setTodos(prev => prev.map(thisTodo => thisTodo.id === id ? {...thisTodo, complete: !thisTodo.complete} : thisTodo));
+    await axios.post("/api/todos", {todos: todos})
   }
 
 	useEffect(() => {
@@ -51,13 +55,13 @@ const Page = () => {
     fetchTodos();
 	},[])
 
-	useEffect(() => {
-    const setData = async () => {
-      axios.post("/api/todos", {todos: todos})
-    }
-    setData();
-    // axios.post("/api/todos", {todos: todos}).then(res => {});
-	},[todos])
+	// useEffect(() => {
+  //   const setData = async () => {
+  //     axios.post("/api/todos", {todos: todos})
+  //   }
+  //   setData();
+  //   // axios.post("/api/todos", {todos: todos}).then(res => {});
+	// },[todos])
 
   return (
     <div>
