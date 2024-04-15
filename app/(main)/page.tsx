@@ -7,8 +7,17 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { SidebarDrawer } from "@/components/SidebarDrawer";
 import { ChatBot } from "@/components/ChatBot";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
+  const {status, data} = useSession();
+
+  if (status != "authenticated" && status != "loading") {
+      router.push("/sign-in");
+  }
   
   // const textRef = useRef<HTMLElement | null>(null);
   const textRef = useRef<HTMLDivElement | null>(null);

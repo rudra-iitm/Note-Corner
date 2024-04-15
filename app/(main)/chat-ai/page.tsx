@@ -1,8 +1,17 @@
+'use client';
 import { SidebarDrawer } from '@/components/SidebarDrawer'
 import React from 'react'
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import Chat_ai from '@/components/Chat_ai';
-const page = () => {
+import { useSession } from 'next-auth/react';
+const Page = () => {
+  const router = useRouter();
+
+  const {status, data} = useSession();
+
+  if (status != "authenticated" && status != "loading") {
+      router.push("/sign-in");
+  }
   return (
     <div>
       <SidebarDrawer urll='chat-ai'/>
@@ -11,4 +20,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

@@ -5,8 +5,18 @@ import { TodoProvider } from '@/Context/Todo'
 import InputTodo from '@/components/InputTodo';
 import Todo from '@/components/Todo';
 import { SidebarDrawer } from '@/components/SidebarDrawer';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 const Page = () => {
+  const router = useRouter();
+
+  const {status, data} = useSession();
+
+  if (status != "authenticated" && status != "loading") {
+      router.push("/sign-in");
+  }
+
   const [todos, setTodos] = useState<{ id: number; todo: string; complete: boolean; }[]>([]);
   const addTodo = (todo : string) => {
     setTodos(prev => [
