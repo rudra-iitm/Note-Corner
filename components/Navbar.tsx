@@ -16,7 +16,7 @@ const Navbar = () => {
           <MenuItem setActive={setActive} active={active} item="Features">
             <div className="flex flex-col space-y-4 text-sm">
               <HoveredLink href="/chat-ai"><div className="flex flex-row space-x-2"><SparkleIcon className="h-5 w-4"/><h1>AI</h1></div></HoveredLink>
-              <HoveredLink href="/train-search"><div className="flex flex-row space-x-2"><Dock className="h-5 w-4"/> <h1>Docs</h1></div></HoveredLink>
+              <HoveredLink href="/docsnote"><div className="flex flex-row space-x-2"><Dock className="h-5 w-4"/> <h1>Docs</h1></div></HoveredLink>
               <HoveredLink href="/station-search"><div className="flex flex-row space-x-2"><IconBrandWikipedia className="h-5 w-4"/> <h1>Wikis</h1></div></HoveredLink>
             </div>
           </MenuItem>
