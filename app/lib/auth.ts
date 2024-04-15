@@ -5,6 +5,10 @@ import bcrypt from "bcrypt";
 
 export const authOptions = {
     providers: [
+    GoogleProvider({
+        clientId: process.env.GOOGLE_CLIENT_ID || "",
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+    }),
     CredentialsProvider({
         name: 'Credentials',
         credentials: {
@@ -12,7 +16,7 @@ export const authOptions = {
             password: { label: "Password", type: "password" }
         },
         async authorize(credentials: any) {
-            console.log(credentials);
+
             const existingUser = await client.user.findFirst({
                 where: {
                     email: credentials.email,
@@ -29,6 +33,7 @@ export const authOptions = {
                 if (!passwordMatch) {
                     return null;
                 }
+
                 return {id: existingUser.id, email: existingUser.email};
             } 
 
@@ -37,10 +42,17 @@ export const authOptions = {
     })
     ],
     secret: process.env.NEXTAUTH_SECRET || "default-secret",
-    callbacks: {
-        async session({token, session}: any) {
-            session.user.id = token.sub
-            return session
+    jwt: async ({ user, token }: any) => {
+        if (user) {
+            token.uid = user.id;
+            token.expires = Math.floor(Date.now() / 1000) + 3600*2; 
         }
-    }
+        return token;
+    },
+    session: ({ session, token, user }: any) => {
+      if (session.user) {
+          session.user.id = token.uid
+      }
+      return session
+  }
 }

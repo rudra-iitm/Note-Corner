@@ -1,8 +1,18 @@
+'use client';
 import ReactBigCalendar from '@/components/Calender'
 import { SidebarDrawer } from '@/components/SidebarDrawer'
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import React from 'react'
 
-const page = () => {
+const Page = () => {
+  const router = useRouter();
+
+  const {status, data} = useSession();
+
+  if (status != "authenticated" && status != "loading") {
+      router.push("/sign-in");
+  }
   return (
     <div>
       <SidebarDrawer urll='calendar'/>
@@ -12,4 +22,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
