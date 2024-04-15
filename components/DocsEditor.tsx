@@ -2,6 +2,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import React, { useEffect } from 'react'
 // import motion from 'framer-motion'
+import { Toaster } from "./ui/toaster";
 import CodeEditor from './CodeEditor'
 import RichTextEditor from './RichTextEditor'
 import { Input } from './ui/input';
@@ -9,9 +10,13 @@ import { CodeSquare, GripVertical, NotepadTextDashedIcon, Trash2 } from 'lucide-
 import { Button } from "./ui/button";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { useToast } from "./ui/use-toast";
+import client from '@/db'
+import { SaveHandler } from "@/app/lib/save";
 
 
 export default function DocsEditor() {
+    const { toast } = useToast();
     const session=useSession();
     const [count, setCount] = React.useState(0);
     const [prevString, setprevString] = React.useState('');
@@ -48,11 +53,29 @@ export default function DocsEditor() {
         setEditors((prevEditors) => [...prevEditors, prop]);
         setEditorContent((prevContent) => [...prevContent, ""]);
     };
-    const SaveHandler=()=>{
-        // const email=session.data?.user?.email;
-        // console.log(user);
-        // console.log(editorContent);
-    }
+    // const SaveHandler=async()=>{
+    //     const email=session.data?.user?.email;
+    //     if(!email)
+    //     {
+    //         toast({
+    //             title: "Unable to save!",
+    //             variant: "destructive",
+    //         })
+    //         return;
+    //     }
+    //     console.log(email);
+    //     const user = await client.user.findFirst({
+    //         where: {
+    //             email: email,
+    //         },
+    //         // select: {
+    //         //     id: true,
+    //         //     email: true,
+    //         // },
+    //     })
+    //     console.log(user);
+    //     // console.log(editorContent);
+    // }
   return (
         <div className="top-28 left-4 right-4 absolute bg-white juxstify-center items-center -z-10 " >
         <div className="flex flex-row justify-end"><Button onClick={SaveHandler} className="bg-zinc-800 dark:bg-slate-200 text-white fixed top-5 right-5 z-20">Save Docs</Button></div>
