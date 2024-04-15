@@ -106,7 +106,8 @@ model Authenticator {
 
 model Docknote {
   id        String    @id @default(cuid())
-  titles    String[]
+  title     String
+  content    String[]
   Docknotes Docknotes @relation(fields: [DocknotesId], references: [id])
   DocknotesId String
   createdAt DateTime  @default(now())
