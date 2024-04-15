@@ -55,7 +55,12 @@ export default function DocsEditor() {
         setEditorContent((prevContent) => [...prevContent, ""]);
     };
     const SaveHandler=async()=>{
-        await axios.post('/api/docs', {})
+        console.log(1);
+        const res=await axios.post('/api/docs', {"content":editorContent});
+        console.log(res);
+        toast({
+            title: res.data.message,
+          });
         // console.log(editorContent);
     }
   return (
