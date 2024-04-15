@@ -1,33 +1,10 @@
 "use client";
-// import { Calendar, dayjsLocalizer } from 'react-big-calendar'
-// import dayjs from 'dayjs'
 
-// const localizer = dayjsLocalizer(dayjs)
-
-// export default function ReactBigCalendar() {
-//     return(
-//     <div>
-//         <Calendar
-//         localizer={localizer}
-//         //   events={myEventsList}
-//         startAccessor="start"
-//         endAccessor="end"
-//         style={{ height: 500 }}
-//         />
-//     </div>
-//     )
-// }
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
-
-// import "@fullcalendar/core/main.css";
-// import "@fullcalendar/daygrid/main.css";
-
-// import "@fullcalendar/core/main.css";
-// import "@fullcalendar/daygrid/main.css";
 
 
 export default function ReactBigCalendar() {
@@ -39,15 +16,7 @@ export default function ReactBigCalendar() {
         <FullCalendar
           schedulerLicenseKey="GPL-My-Project-Is-Open-Source"
           initialView="dayGridMonth"
-        //   ref={this.calendarComponentRef}
-        //   defaultView="dayGridMonth"
-        //   dateClick={this.handleDateClick}
           displayEventTime={true}
-        //   header={{
-        //     left: "prev,next today",
-        //     center: "title",
-        //     right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
-        //   }}
           selectable={true}
           plugins={[
             dayGridPlugin,
@@ -59,8 +28,6 @@ export default function ReactBigCalendar() {
             console.log(event.event._def.publicId);
           }}
           events={events}
-        //   select={this.handleSelectedDates}
-        //   eventLimit={3}
         />
       </div>
 
