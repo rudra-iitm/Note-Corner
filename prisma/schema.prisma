@@ -23,7 +23,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Todo      Todo[]
-}
+  Docknotes Docknotes?
+  }
 
 model Account {
   userId            String
@@ -90,3 +91,19 @@ model Todo {
 }
 
 
+model Docknote {
+  id        String   @id @default(cuid())
+  titles     String[]
+  Docknotes Docknotes @relation(fields: [id], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Docknotes {
+  id        String   @id @default(cuid())
+  docknotes Docknote[]
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

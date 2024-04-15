@@ -5,12 +5,16 @@ import { useState } from 'react';
 const RichTextEditor = ({setEditorContentprop,idprop}:{setEditorContentprop: React.Dispatch<React.SetStateAction<string[]>>,idprop:number}) => {
     const [editorContent, setEditorContent] = useState('');
     const handleEditorChange = (value: string) => {
+        // console.log(value);
         setEditorContent(value);
         setEditorContentprop((prevContent) => {
           const updatedContent = [...prevContent];
           updatedContent[idprop] = value;
+          // console.log(updatedContent);
           return updatedContent;
         });
+        
+        // console.log(editorContentProp);
       };
       const modules = {
         toolbar: [
@@ -25,6 +29,7 @@ const RichTextEditor = ({setEditorContentprop,idprop}:{setEditorContentprop: Rea
         ],
         
       };
+      // console.log(editorContentProp,idprop);
    return (
    <>
      <ReactQuill
