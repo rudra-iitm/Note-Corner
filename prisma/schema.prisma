@@ -20,11 +20,12 @@ model User {
   // Optional for WebAuthn support
   Authenticator Authenticator[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Todo      Todo[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Todo      String?
+  Events    String?
   Docknotes Docknotes?
-  }
+}
 
 model Account {
   userId            String
@@ -80,30 +81,29 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Todo {
-  id        String   @id @default(cuid())
-  todo      String
-  completed Boolean  @default(false)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
+// model Todo {
+//   id        String   @id @default(cuid())
+//   todo      String
+//   completed Boolean  @default(false)
+//   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   userId    String
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
 
 model Docknote {
-  id        String   @id @default(cuid())
-  titles     String[]
+  id        String    @id @default(cuid())
+  titles    String[]
   Docknotes Docknotes @relation(fields: [id], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Docknotes {
-  id        String   @id @default(cuid())
+  id        String     @id @default(cuid())
   docknotes Docknote[]
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String     @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }

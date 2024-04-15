@@ -42,17 +42,17 @@ export const authOptions = {
     })
     ],
     secret: process.env.NEXTAUTH_SECRET || "default-secret",
-    jwt: async ({ user, token }: any) => {
-        if (user) {
-            token.uid = user.id;
-            token.expires = Math.floor(Date.now() / 1000) + 3600*2; 
-        }
-        return token;
-    },
-    session: ({ session, token, user }: any) => {
-      if (session.user) {
-          session.user.id = token.uid
+    callbacks: {
+        jwt({ token, account, user } : { token: any, account: any, user: any }) {
+          if (account) {
+            token.accessToken = account.access_token
+            token.id = user?.id
+          }
+          return token
+        },
+        session({ session, token }: { session: any, token: any }) {
+            session.user.id = token.id;
+            return session;
+          },
       }
-      return session
-  }
 }

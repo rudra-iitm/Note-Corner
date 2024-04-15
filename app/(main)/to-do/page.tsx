@@ -7,8 +7,10 @@ import Todo from '@/components/Todo';
 import { SidebarDrawer } from '@/components/SidebarDrawer';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import axios from 'axios';
 
 const Page = () => {
+
   const router = useRouter();
 
   const {status, data} = useSession();
@@ -18,7 +20,7 @@ const Page = () => {
   }
 
   const [todos, setTodos] = useState<{ id: number; todo: string; complete: boolean; }[]>([]);
-  const addTodo = (todo : string) => {
+  const addTodo = async (todo : string) => {
     setTodos(prev => [
       {
         id: Date.now(),
@@ -27,23 +29,40 @@ const Page = () => {
       },
       ...prev
     ])
+    await axios.post("/api/todos", {todos: todos})
   }
-  const deleteTodo = (id: number): void => {
+
+  const deleteTodo = async (id: number) => {
     setTodos(prev => prev.filter(thisTodo => thisTodo.id !== id))
+    await axios.post("/api/todos", {todos: todos})
   }
-  const updateTodo = (todo : string, id : number) => {
+  const updateTodo = async (todo : string, id : number) => {
     setTodos(prev => prev.map(thisTodo => thisTodo.id === id ? {...thisTodo, todo : todo} : thisTodo));
+    await axios.post("/api/todos", {todos: todos})
   }
-  const toggleComplete = (id : number) => {
+  const toggleComplete = async (id : number) => {
     setTodos(prev => prev.map(thisTodo => thisTodo.id === id ? {...thisTodo, complete: !thisTodo.complete} : thisTodo));
+    await axios.post("/api/todos", {todos: todos})
   }
+
 	useEffect(() => {
-		const localTodos = JSON.parse(localStorage.getItem("todos") || "[]");
-		if (localTodos && localTodos.length > 0) setTodos(localTodos);
+    const fetchTodos = async () => {
+      axios.get("/api/todos").then(res => {
+        const localTodos = res.data
+        if (localTodos && localTodos.length > 0) setTodos(localTodos);
+      });
+    }
+    fetchTodos();
 	},[])
-	useEffect(() => {
-		localStorage.setItem("todos",JSON.stringify(todos));
-	},[todos])
+
+	// useEffect(() => {
+  //   const setData = async () => {
+  //     axios.post("/api/todos", {todos: todos})
+  //   }
+  //   setData();
+  //   // axios.post("/api/todos", {todos: todos}).then(res => {});
+	// },[todos])
+
   return (
     <div>
       <TodoProvider value={{todos, addTodo, deleteTodo, updateTodo, toggleComplete}}>
