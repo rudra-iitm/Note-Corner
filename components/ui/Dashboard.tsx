@@ -1,10 +1,13 @@
 'use client';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, CardDescription } from './card'
 import { Button } from './button'
-import { FaRegTrashCan } from "react-icons/fa6";
 import { PieChartComponent } from '../pie-chart';
 import { BarGraph } from '../bar-graph';
+import Profile_SVG from '@/public/profile.svg'
+import Image from 'next/image';
+import { IoLogInOutline } from "react-icons/io5";
+import { signOut } from 'next-auth/react';
 
 const Dashboard = () => {
     const [active, setActive] = useState(false)
@@ -16,17 +19,26 @@ const Dashboard = () => {
         email: 'example'
     }])
 
+    // useEffect(() => {
+        
+    // }
+
   return (
     <div className='grid grid-cols-2 w-screen h-screen gap-4 p-4 pt-28'>
-        <Card className='bg-gray-200 w-full h-full'>
+        <Card className='border-0 w-full h-full'>
+            <Image src={Profile_SVG} alt='profile' className='w-full h-full mx-auto p-4'/>
         </Card>
-        <Card className='bg-gray-200 w-full h-full'>
+        <Card className='bg-gray-100 w-full h-full'>
             <div className='px-6 pt-6 flex justify-between items-center'>
                 <div className='text-4xl font-semibold pl-4'>
                     Personal Information
                 </div>
-                <Button>
-                    <FaRegTrashCan />
+                <Button onClick={
+                () => {
+                    signOut();
+                }
+                }>
+                    <IoLogInOutline size={25}/>
                 </Button>
             </div>
             <div className='px-6 pt-6 pl-10'>
@@ -58,8 +70,7 @@ const Dashboard = () => {
                 Collaborators
                 <Collaborators list={collaborators} />
             </div>
-        </Card>
-        
+        </Card>  
     </div>
   )
 }
