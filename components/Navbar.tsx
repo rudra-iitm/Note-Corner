@@ -2,14 +2,14 @@
 import  { useState } from "react";
 import { HoveredLink, Menu, MenuItem} from "./ACui/navbar-menu";
 import { signOut } from "next-auth/react";
-import { Dock, Lock, LogIn, LogOutIcon, PlusSquare, Settings, SparkleIcon, UserIcon, UserPlus } from "lucide-react";
+import { Dock, List, Lock, LogIn, LogOutIcon, PlusSquare, Settings, SparkleIcon, UserIcon, UserPlus } from "lucide-react";
 import { IconBrandTeams, IconBrandWikipedia } from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
+import { MdEventAvailable } from "react-icons/md";
 
 const Navbar = () => {
   // const [userDet,setUserDet]=useState("not authorised");
   const {status, data} = useSession();
-
 
   const [active, setActive] = useState<string | null>(null);
     return (
@@ -19,7 +19,8 @@ const Navbar = () => {
             <div className="flex flex-col space-y-4 text-sm">
               <HoveredLink href="/chat-ai"><div className="flex flex-row space-x-2"><SparkleIcon className="h-5 w-4"/><h1>AI</h1></div></HoveredLink>
               <HoveredLink href="/docsnote"><div className="flex flex-row space-x-2"><Dock className="h-5 w-4"/> <h1>Docs</h1></div></HoveredLink>
-              <HoveredLink href="/station-search"><div className="flex flex-row space-x-2"><IconBrandWikipedia className="h-5 w-4"/> <h1>Wikis</h1></div></HoveredLink>
+              <HoveredLink href="/calendar"><div className="flex flex-row space-x-2"><MdEventAvailable className="h-5 w-4"/> <h1>Calander</h1></div></HoveredLink>
+              <HoveredLink href="/to-do"><div className="flex flex-row space-x-2"><List className="h-5 w-4"/> <h1>Todo</h1></div></HoveredLink>
             </div>
           </MenuItem>
           <MenuItem setActive={setActive} active={active} item="Workflows">

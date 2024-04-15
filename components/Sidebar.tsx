@@ -8,11 +8,15 @@ import { FaTrashAlt } from "react-icons/fa";
 import { IoSettingsSharp } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { MdLogout } from "react-icons/md";
+import { MdLogin, MdLogout } from "react-icons/md";
 import Link from "next/link";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import { PlusSquare, User } from "lucide-react";
 
 const Sidebar = ({urll,toggleDrawer}: {urll:string,toggleDrawer: () => void}) => {
+  const {status, data} = useSession();
+  const router = useRouter();
+  console.log(status);
   // const currentUrl = window.location.pathname;
   // const currentUrl = router.asPath;
   // router.
@@ -35,11 +39,21 @@ const Sidebar = ({urll,toggleDrawer}: {urll:string,toggleDrawer: () => void}) =>
           <nav className="hs-accordion-group p-6 w-full flex flex-col flex-wrap" data-hs-accordion-always-open>
             <ul className="space-y-1.5">
               <li>
-                <a className={`flex items-center gap-x-3.5 py-2 px-2.5 text-sm  rounded-lg hover:bg-gray-100 dark:bg-gray-900 dark:text-white ${urll==='profile'?'text-blue-500':'text-slate-700'}`} href="/profile">
+                <a className={`flex items-center gap-x-3.5 py-2 px-2.5 text-sm  rounded-lg hover:bg-gray-100 dark:bg-gray-900 dark:text-white ${urll==='/'?'text-blue-500':'text-slate-700'}`} href="/">
                   <svg className="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" ><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                  Home
+                </a>
+              </li>
+              <li>
+                <a className={`flex items-center gap-x-3.5 py-2 px-2.5 text-sm  rounded-lg hover:bg-gray-100 dark:bg-gray-900 dark:text-white ${urll==='profile'?'text-blue-500':'text-slate-700'}`} href="/profile">
+                  <User className="size-4" />
                   Profile
                 </a>
               </li>
+              <li><a className={`flex items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 ${urll==='docsnote'?'text-blue-500':'text-slate-700'}`} href="/docsnote">
+                <PlusSquare className="size-4" />
+                New Doc
+              </a></li>
               <li>
                 <Accordion type="single" collapsible className="py-0 px-2.5 gap-x-3.5 rounded-lg hover:bg-gray-100 dark:bg-gray-900 dark:text-white">
                     <AccordionItem value="item-1" className="border-0">
@@ -110,10 +124,10 @@ const Sidebar = ({urll,toggleDrawer}: {urll:string,toggleDrawer: () => void}) =>
             </a>
          </li>
          <li>
-            <Link href="#" onClick={() => signOut({callbackUrl: '/'})}
+            <Link href="#" onClick={() =>{ if(status==="authenticated"){signOut({callbackUrl: '/'})}else{router.push("/sign-in")}}}
             className="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
-               <MdLogout className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-               <span className="ms-3">Log out</span>
+                {status==="authenticated"?<MdLogin className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />:<MdLogin className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />}
+               {status==="authenticated"?<span className="ms-3">Log out</span>:<span className="ms-3">Log in</span>}
             </Link>
          </li>
          </ul>

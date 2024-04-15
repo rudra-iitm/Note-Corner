@@ -14,6 +14,7 @@ import { useSession } from "next-auth/react";
 import client from '@/db'
 import { useToast } from '@/components/ui/use-toast';
 import DocsEditor from '@/components/DocsEditor';
+import { SidebarDrawer } from '@/components/SidebarDrawer';
 
 
 
@@ -27,6 +28,7 @@ const page = () => {
     }
     return (
     <div>
+      <SidebarDrawer urll="docsnote"/>
       <DocsEditor/>
     </div>
   )
