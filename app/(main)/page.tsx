@@ -12,13 +12,6 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
-
-  const {status, data} = useSession();
-
-  if (status != "authenticated" && status != "loading") {
-      router.push("/sign-in");
-  }
-  
   // const textRef = useRef<HTMLElement | null>(null);
   const textRef = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({ target: textRef });

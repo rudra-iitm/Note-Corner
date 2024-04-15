@@ -4,11 +4,17 @@ import { HoveredLink, Menu, MenuItem} from "./ACui/navbar-menu";
 
 import { Dock, Lock, LogIn, LogOutIcon, PlusSquare, Settings, SparkleIcon, UserIcon, UserPlus } from "lucide-react";
 import { IconBrandTeams, IconBrandWikipedia } from "@tabler/icons-react";
+import { useSession } from "next-auth/react";
 
 const Navbar = () => {
-//   const token=Cookies.get('token');
-  const [userDet,setUserDet]=useState(null);
+  // const [userDet,setUserDet]=useState("not authorised");
+  const {status, data} = useSession();
 
+  // if (status === "authenticated") {
+  //   setUserDet("authorised");
+  // }
+  // else{setUserDet("authorised");}
+  
   const [active, setActive] = useState<string | null>(null);
     return (
         <div className="fixed top-6 inset-x-0 max-w-md mx-auto">
@@ -27,7 +33,7 @@ const Navbar = () => {
             </div>
           </MenuItem>
           {
-          userDet ? 
+          status==="authenticated" ? 
           <MenuItem setActive={setActive} active={active} item="Account">
             <div className="flex flex-col space-y-4 text-sm">
               <HoveredLink href="/dashboard"><div className="flex flex-row space-x-2"><UserIcon className="h-5 w-4"/> <h1>My Account</h1></div></HoveredLink>
