@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
 import { useEffect, useState } from 'react'
@@ -8,16 +9,13 @@ import { SidebarDrawer } from '@/components/SidebarDrawer';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
+import { Loader } from '@/components/Chat_ai';
 
 const Page = () => {
 
   const router = useRouter();
 
   const {status, data} = useSession();
-
-  if (status != "authenticated" && status != "loading") {
-      router.push("/sign-in");
-  }
 
   const [todos, setTodos] = useState<{ id: number; todo: string; complete: boolean; }[]>([]);
   const addTodo = async (todo : string) => {
@@ -62,6 +60,17 @@ const Page = () => {
   //   setData();
   //   // axios.post("/api/todos", {todos: todos}).then(res => {});
 	// },[todos])
+
+  if (status == "loading") {
+    return (<div className="flex justify-center items-center h-screen w-screen">
+        <Loader size={'16'}/>
+    </div>
+  )
+}
+
+  if (status != "authenticated") {
+      router.push("/sign-in");
+  }
 
   return (
     <div>
