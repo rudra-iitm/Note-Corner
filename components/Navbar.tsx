@@ -9,11 +9,6 @@ import { useSession } from "next-auth/react";
 const Navbar = () => {
   // const [userDet,setUserDet]=useState("not authorised");
   const {status, data} = useSession();
-
-  // if (status === "authenticated") {
-  //   setUserDet("authorised");
-  // }
-  // else{setUserDet("authorised");}
   
   const [active, setActive] = useState<string | null>(null);
     return (

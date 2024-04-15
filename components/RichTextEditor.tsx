@@ -27,7 +27,8 @@ const RichTextEditor = () => {
          value={editorContent}
          onChange={handleEditorChange}
          modules={modules}
-         className='w-full flex-grow px-3 py-5 dark:text-white mb-0'
+         placeholder='Write something...'
+         className='w-full flex-grow px-3 dark:text-white mb-0 mt-0'
        />
     </>
    ) 
