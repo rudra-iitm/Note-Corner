@@ -34,8 +34,8 @@ export default function DocsEditor() {
         console.log(editorContent);
     }
   return (
-        <div className="top-28 left-4 right-4 absolute bg-white juxstify-center items-center " >
-        <h1 id="text1" className="text-black dark:text-white font-mono font-extrabold text-4xl text-center" onMouseOver={()=>{if(open)setOpen(false)}}>Note Corner : Docs</h1>
+        <div className="top-28 left-4 right-4 absolute bg-white juxstify-center items-center -z-10 " >
+        <h1 id="text1" className="text-black dark:text-white font-mono font-extrabold text-4xl text-center -z-10" onMouseOver={()=>{if(open)setOpen(false)}}>Note Corner : Docs</h1>
         <Button onClick={SaveHandler} className="absolute top-0 right-0 bg-slate-200 text-white">Save</Button>
         <div className='overflow-auto  m-10 border-2 border-zinc-800 p-4 rounded flex flex-col space-y-10 justify-start items-center min-h-[20rem]'>
             <div className="fixed flex flex-col top-80 left-[42px] space-y-2 justify-center items-center bg-white border-2 border-zinc-900 py-1 px-0">
