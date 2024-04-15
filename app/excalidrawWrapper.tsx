@@ -11,7 +11,7 @@ const ExcalidrawWrapper: React.FC = () => {
     height: 141.9765625,
   },]));
   return (
-    <div style={{height:"500px", width:"500px"}}>  
+    <div className="w-[1200px] h-[650px]">  
       <Excalidraw />
     </div> 
   );
