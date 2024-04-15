@@ -31,7 +31,10 @@ const chatController = async (req, res) => {
   chatHistory.push({ message, sender: 'user' });
   const response = await getGeminiResponse(message);
   chatHistory.push({ message: response, sender: 'bot' });
-  return res.json(response);
+  const { candidates } = response.response;
+  const { content: { parts } } = candidates[0];
+  const { text } = parts[0];
+  return res.json(text);
 };
 
 export { chatController };
