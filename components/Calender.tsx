@@ -12,7 +12,7 @@ export default function ReactBigCalendar() {
         { title: 'Meeting', start: new Date() }
       ]
     return(
-        <div className="w-full h-full mt-4 p-40">
+        <div className="w-full h-full p-40 overflow-auto border-2 mt-40 fixed">
         <FullCalendar
           schedulerLicenseKey="GPL-My-Project-Is-Open-Source"
           initialView="dayGridMonth"
