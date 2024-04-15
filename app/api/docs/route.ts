@@ -8,11 +8,12 @@ export async function POST(req: NextRequest) {
         console.log(content);
         if(!content){return NextResponse.json({ message: "No data Provided !!" });}
         // const stringifiedTodos = todos.map((todo: any) => JSON.stringify(todo));
-        // console.log(session?.user?.email);
+        if(!session?.user?.email){return NextResponse.json({ message: "No user found !!" });}
+        console.log(session?.user?.email);
         const user = await client.user.findFirst({
             where: 
             {
-                email: session?.user?.email || '',
+                email: session?.user?.email 
             },
             select: {
                 id: true
@@ -20,7 +21,7 @@ export async function POST(req: NextRequest) {
         }
         )
         if(!user){return NextResponse.json({ message: "Unable to save !!" });}
-        // console.log(user);
+        console.log(user);
         const docknotes = await client.docknotes.findFirst({
             where: {
                 userId: user?.id || '',
@@ -39,7 +40,8 @@ export async function POST(req: NextRequest) {
             console.log(ds);
             const docknote=await client.docknote.create({
                 data:{
-                    titles:content,
+                    title:'a',
+                    content:content,
                     DocknotesId:ds.id
                 }
             });
@@ -50,7 +52,8 @@ export async function POST(req: NextRequest) {
             console.log(44);
             const docknote=await client.docknote.create({
                 data:{
-                    titles:content,
+                    title:'a',
+                    content:content,
                     DocknotesId:docknotes.id
                 }
             });
