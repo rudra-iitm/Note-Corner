@@ -25,6 +25,9 @@ model User {
   Todo      String?
   Events    String?
   Docknotes Docknotes?
+  collaboratoinId String?
+  collabration Collabration? @relation(fields: [collaboratoinId], references: [id])
+  socketId String?
 }
 
 model Account {
@@ -97,6 +100,7 @@ model Docknote {
   Docknotes Docknotes @relation(fields: [id], references: [id])
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  Collabration Collabration[]
 }
 
 model Docknotes {
@@ -106,4 +110,13 @@ model Docknotes {
   userId    String     @unique
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+}
+
+model Collabration {
+  id        String  @id @default(cuid())
+  docknote  Docknote @relation(fields: [docknoteId], references: [id])
+  docknoteId String
+  users     User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
