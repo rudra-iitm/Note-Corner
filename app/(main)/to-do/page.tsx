@@ -35,20 +35,22 @@ const Page = () => {
 		localStorage.setItem("todos",JSON.stringify(todos));
 	},[todos])
   return (
-		<TodoProvider value={{todos, addTodo, deleteTodo, updateTodo, toggleComplete}}>
-      <SidebarDrawer urll='to-do'/>
-			<div className="h-lvh w-lvw dark:bg-[#555555] flex justify-center pt-16 overflow-hidden absolute">
-				<div className="w-1/2 px-10 mt-12 border border-zinc-900 h-3/4 p-6 rounded-lg overflow-auto">
-					<p className='text-center text-5xl font-semibold mb-10 dark:text-white'>Manage Your Todos</p>
-					<InputTodo/>
-					<div className="flex flex-col gap-5">
-						{todos.map(thisTodo => (
-							<Todo key={thisTodo.id} todo={thisTodo}/>
-						))}
-					</div>
-				</div>
-			</div>
-		</TodoProvider>
+    <div>
+      <TodoProvider value={{todos, addTodo, deleteTodo, updateTodo, toggleComplete}}>
+        <SidebarDrawer urll='to-do'/>
+        <div className="h-lvh w-lvw dark:bg-[#555555] flex justify-center pt-16 overflow-hidden absolute -z-10">
+          <div className="w-1/2 px-10 mt-12 border border-zinc-900 h-3/4 p-6 rounded-lg overflow-auto">
+            <p className='text-center md:text-5xl font-semibold mb-10 dark:text-white sm:text-3xl'>Manage Your Todos</p>
+            <InputTodo/>
+            <div className="flex flex-col gap-5">
+              {todos.map(thisTodo => (
+                <Todo key={thisTodo.id} todo={thisTodo}/>
+              ))}
+            </div>
+          </div>
+        </div>
+      </TodoProvider>
+    </div>
   )
 }
 
