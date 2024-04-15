@@ -21,7 +21,7 @@ app.prepare().then(() => {
     socket.on("invite", async (data) => {
       const { senderEmail, receiverEmail, receiverId, docId } = data;
       io.to(receiverId).emit("invite", { senderEmail, receiverEmail, docId });
-      await axios.post("http://localhost:3000/api/user/invite", {
+      await axios.post("http://localhost:3000/api/collabration/invite", {
         senderEmail,
         receiverEmail,
         docId,
@@ -33,7 +33,7 @@ app.prepare().then(() => {
       socket.join(room);
       io.sockets.sockets.get(receiverId).join(room);
       io.to(senderId).emit("accept", { senderEmail, receiverEmail });
-      await axios.post("http://localhost:3000/api/user/accept", {
+      await axios.post("http://localhost:3000/api/collabration/accept", {
         senderEmail,
         receiverEmail,
         docId,
