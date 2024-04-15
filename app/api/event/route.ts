@@ -4,11 +4,12 @@ import { getServerSession } from "next-auth";
 
 export async function POST(req: NextRequest) {
         const session = await getServerSession();
-        const { todos } = await req.json();
+        const { events } = await req.json();
+        console.log('original', events);
 
-        const stringifiedTodos =  JSON.stringify(todos);
+        const stringifiedEvents =  JSON.stringify(events);
+        console.log('Events', stringifiedEvents);
         // const stringifiedTodos = todos.map((todo: any) => JSON.stringify(todo));
-        console.log('Todos', stringifiedTodos);
 
         const user = await client.user.update({
             where: 
@@ -16,29 +17,29 @@ export async function POST(req: NextRequest) {
                 email: session?.user?.email || '',
             },
                 data: {
-                    Todo: stringifiedTodos,
+                    Events: stringifiedEvents,
                 }
             }
         )
 
         console.log(user);
 
-        return NextResponse.json({ message: "Todo added" });
+        return NextResponse.json({ message: "Event added" });
     }
 
     export async function GET() {
         const session = await getServerSession();
 
-        const todos = await client.user.findFirst({
+        const events = await client.user.findFirst({
             where: {
                 email: session?.user?.email || '',
             }, select: {
-                Todo: true,
+                Events: true,
             }
         });
 
-        console.log(todos?.Todo);
+        console.log(events?.Events);
 
 
-        return NextResponse.json(JSON.parse(todos?.Todo || "[]"));
+        return NextResponse.json(JSON.parse(events?.Events || "[]"));
     }

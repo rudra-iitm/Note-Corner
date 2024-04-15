@@ -5,7 +5,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -21,6 +21,7 @@ import { Label } from "@/components/ui/label"
 import { DatePicker } from "./ui/date-picker";
 import { Trash2 } from "lucide-react";
 import { v4 as uuidv4 } from 'uuid';
+import axios from "axios";
 
 const seperator = "/^&*/";
 const eventColors = ["red","blue","pink","yellow","green"];
@@ -49,6 +50,15 @@ export default function ReactBigCalendar() {
         start: Date;
         end?: Date;
     }[]>([]);
+
+    useEffect(() => {
+      async function getData() {
+        const { data } = await axios.get("/api/event");
+        if (data && data.length > 0) setEvents(data);
+      }
+      getData();
+    }, [])
+
     const showAddEventDialog = (e : any) => {
       setId("");
       setEvent("");
@@ -58,7 +68,7 @@ export default function ReactBigCalendar() {
       setIsEdit(false);
       addEventButton.current?.click();
     }
-    const addEvent = () => {
+    const addEvent = async () => {
       setEvent("");
       setTime("");
       let range = false;
@@ -68,16 +78,21 @@ export default function ReactBigCalendar() {
         }
       }
       if (isedit) {
+        const temp = { title: event+seperator+time+seperator+Math.floor(Math.random() * eventColors.length).toString()+seperator+range.toString()+seperator+id, start: startDate!, end: endDate }
         setEvents(prev => prev.map((e) => {
           if (e.title.split(seperator)[4] == id) {
             return { title: event+seperator+time+seperator+Math.floor(Math.random() * eventColors.length).toString()+seperator+range.toString()+seperator+id, start: startDate!, end: endDate }
           }
           return e;
         }))
+
+        await axios.post("/api/event", {events: [...events, temp]})
       }else {
         const uniqueId = uuidv4();
         console.log(uniqueId);
         setEvents(prev => [...prev,{ title: event+seperator+time+seperator+Math.floor(Math.random() * eventColors.length).toString()+seperator+range.toString()+seperator+uniqueId, start: startDate!, end: endDate }])
+        const temp = { title: event+seperator+time+seperator+Math.floor(Math.random() * eventColors.length).toString()+seperator+range.toString()+seperator+id, start: startDate!, end: endDate }
+        await axios.post("/api/event", {events: [...events, temp]})
       }
     }
     const showEditEventDialog = (e : any) => {
@@ -92,13 +107,15 @@ export default function ReactBigCalendar() {
       setIsEdit(true);
       addEventButton.current?.click();
     }
-    const deleteEvent = () => {
+    const deleteEvent = async () => {
       setEvents(prev => prev.filter((e) => e.title.split(seperator)[4] != id));
       setEvent("");
       setTime("");
       setStartDate(undefined);
       setEndDate(undefined);
       setIsEdit(false);
+      const temp = { title: event+seperator+time+seperator+Math.floor(Math.random() * eventColors.length).toString()+seperator+range.toString()+seperator+id, start: startDate!, end: endDate }
+      await axios.post("/api/event", {events: [...events, temp]})
     }
     return(
       <>
