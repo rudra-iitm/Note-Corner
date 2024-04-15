@@ -24,12 +24,12 @@ function PieChart(props: any) {
         enableArcLinkLabels={false}
         arcLabel={(d) => `${d.id}`}
         arcLabelsTextColor={"#ffffff"}
-        arcLabelsRadiusOffset={0.65}
+        arcLabelsRadiusOffset={0.5}
         colors={["#0F172A", '#1C1678']}
         theme={{
           labels: {
             text: {
-              fontSize: "18px",
+              fontSize: "15px",
             },
           },
           tooltip: {

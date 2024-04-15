@@ -4,13 +4,12 @@ import { ResponsiveBar } from "@nivo/bar"
 
 export function BarGraph() {
   return (
-    <Card className="w-full max-w-lg">
-      <CardHeader className="flex flex-col gap-2">
-        <CardTitle>Vertical Bar chart</CardTitle>
-        <CardDescription>A bar chart showing total pages views for the last 6 months.</CardDescription>
+    <Card className="w-full max-w-2xl bg-transparent border-0">
+      <CardHeader>
+        <CardTitle>Event Stats</CardTitle>
       </CardHeader>
       <CardContent className="flex items-center justify-center">
-        <BarChart className="h-[300px] w-full rounded-lg" />
+        <BarChart className="h-[250px] w-full rounded-lg" />
       </CardContent>
     </Card>
   )
@@ -32,7 +31,7 @@ function BarChart(props: any) {
         indexBy="name"
         margin={{ top: 0, right: 0, bottom: 40, left: 40 }}
         padding={0.3}
-        colors={["#2563eb"]}
+        colors={['#1C1678']}
         axisBottom={{
           tickSize: 0,
           tickPadding: 16,
@@ -51,7 +50,7 @@ function BarChart(props: any) {
             container: {
               fontSize: "12px",
               textTransform: "capitalize",
-              borderRadius: "6px",
+              borderRadius: "px",
             },
           },
           grid: {
