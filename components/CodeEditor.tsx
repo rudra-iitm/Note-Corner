@@ -74,9 +74,10 @@ const CodeEditor = () => {
   }, [token]);
 
   return (
-    <div className='relative w-full h-auto flex flex-col text-white'>
+    <div className='relative w-full h-auto flex flex-col dark:text-white border-2 border-zinc-200 rounded-lg pb-8'>
+      <h1 className='text-center text-2xl font-bold py-3 dark:text-white'>Code Editor</h1>
       <Select onValueChange={(value) => setLang(value)}>
-        <SelectTrigger className="w-[180px] h-[30px] absolute top-[26.5px] right-5 text-black">
+        <SelectTrigger className="w-[180px] h-[30px] absolute top-[26.5px] right-5 dark:text-black">
           <SelectValue placeholder="Select Language" />
         </SelectTrigger>
         <SelectContent>
@@ -96,25 +97,22 @@ const CodeEditor = () => {
         onChange={handleEditorChange}
         modules={modules}
         formats={['code-block']}
-        className='w-full flex-grow px-3 py-5 text-white mb-0'
+        placeholder='Write your code here...'
+        className='w-full flex-grow px-3 py-5 dark:text-white mb-0'
       />
+      <div className='flex justify-center'>
+        <Button className='w-32 rounded-xl mr-2' onClick={runCode}>
+          Run Code
+        </Button>
+      </div>
       <textarea
         value={terminalContent}
         onChange={(e) => {
           setTerminalContent(e.target.value);
         }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            setTerminalContent(prev => prev+'\n');
-          }
-        }}
-        className=' bg-slate-900 text-white rounded-2xl w-[98%] mx-auto resize-x-none p-3 mt-3 min-h-[150px] max-h-[200px] h-auto overflow-y-visible'
+        
+        className='bg-slate-900 text-white rounded-2xl w-[98%] mx-auto resize-x-none p-3 mt-3 min-h-[150px] max-h-[200px] h-auto overflow-y-visible'
       />
-      <div className='flex justify-end'>
-        <Button className='mt-3 w-32 rounded-xl mr-2' onClick={runCode}>
-          Run Code
-        </Button>
-      </div>
     </div>
   );
 }

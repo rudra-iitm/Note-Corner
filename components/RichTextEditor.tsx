@@ -18,19 +18,19 @@ const RichTextEditor = () => {
             ['clean'],
             ['code-block'],
         ],
-        clipboard: {
-          matchVisual: false,
-        },
+        
       };
    return (
-    <ReactQuill
-        theme="snow"
-        value={editorContent}
-        onChange={handleEditorChange}
-        modules={modules}
-        formats={['code-block']}
-        className='w-full flex-grow px-3 py-5 text-white mb-0'
-      />
+   <>
+     <ReactQuill
+         theme="snow"
+         value={editorContent}
+         onChange={handleEditorChange}
+         modules={modules}
+         placeholder='Write something...'
+         className='w-full flex-grow px-3 dark:text-white mb-0 mt-0'
+       />
+    </>
    ) 
 }
 
