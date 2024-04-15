@@ -16,7 +16,7 @@ export async function GET() {
             Docknotes: true,
         },
     });
-
+    console.log(docnotes);
     const docsId = docnotes?.Docknotes?.docknotesids || [];
     
     const docs = await client.docknote.findMany({

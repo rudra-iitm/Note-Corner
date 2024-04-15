@@ -33,7 +33,8 @@ const Sidebar = ({urll,toggleDrawer}: {urll:string,toggleDrawer: () => void}) =>
   useEffect(() => {
     async function getData() {
       const { data } = await axios.get("/api/docnotes");
-      if (data) setNotes(data);
+      console.log(data.data);
+      if (data){setNotes(data.data);}
     }
     getData();
   }, [])
