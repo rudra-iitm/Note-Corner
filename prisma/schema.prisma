@@ -27,15 +27,15 @@ model User {
   Docknotes Docknotes?
   Invite    Invite[]
   collaboratoinId String?
-  collabration Collabration? @relation(fields: [collaboratoinId], references: [id])
   socketId String?
 }
 
 model Invite {
   id        String   @id @default(cuid())
+  docId     String
   userId    String
   user      User     @relation(fields: [userId], references: [id])
-  email     String
+  senderEmail     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -112,7 +112,6 @@ model Docknote {
   DocknotesId String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  Collabration Collabration[]
 }
 
 model Docknotes {
@@ -126,9 +125,8 @@ model Docknotes {
 
 model Collabration {
   id        String  @id @default(cuid())
-  docknote  Docknote @relation(fields: [docknoteId], references: [id])
   docknoteId String
-  users     User[]
+  users     String[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
