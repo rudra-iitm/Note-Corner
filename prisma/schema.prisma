@@ -26,7 +26,7 @@ model User {
   Events    String?
   Docknotes Docknotes?
   Invite    Invite[]
-  collaboratoinId String?
+  collaborationId String?
   socketId String?
 }
 
@@ -108,7 +108,6 @@ model Docknote {
   id        String    @id @default(cuid())
   title     String
   content    String[]
-  Docknotes Docknotes @relation(fields: [DocknotesId], references: [id])
   DocknotesId String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -116,7 +115,7 @@ model Docknote {
 
 model Docknotes {
   id        String     @id @default(cuid())
-  docknotes Docknote[]
+  docknotesids String[]
   user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String     @unique
   createdAt DateTime   @default(now())
