@@ -1,16 +1,32 @@
 "use client";
 import { motion, useScroll, useTransform } from "framer-motion";
-import React from 'react'
+import React, { useEffect } from 'react'
 // import motion from 'framer-motion'
 import CodeEditor from './CodeEditor'
 import RichTextEditor from './RichTextEditor'
 import { Input } from './ui/input';
 import { CodeSquare, GripVertical, NotepadTextDashedIcon, Trash2 } from 'lucide-react';
 import { Button } from "./ui/button";
+import axios from "axios";
+import { useSession } from "next-auth/react";
 
 
 export default function DocsEditor() {
+    const session=useSession();
     const [count, setCount] = React.useState(0);
+    const [prevString, setprevString] = React.useState('');
+    const autoCompletion=() => {
+        // url http://localhost:5959/api/v1/noteCreate/completion
+        axios.post('http://localhost:5959/api/v1/noteCreate/completion', {
+            "message":prevString
+          })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        }
     const [open, setOpen] = React.useState(false);
     const [button1, setButton1] = React.useState(false);
     const [button2, setButton2] = React.useState(false);
@@ -33,7 +49,9 @@ export default function DocsEditor() {
         setEditorContent((prevContent) => [...prevContent, ""]);
     };
     const SaveHandler=()=>{
-        console.log(editorContent);
+        // const email=session.data?.user?.email;
+        // console.log(user);
+        // console.log(editorContent);
     }
   return (
         <div className="top-28 left-4 right-4 absolute bg-white juxstify-center items-center -z-10 " >
