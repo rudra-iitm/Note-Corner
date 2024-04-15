@@ -7,8 +7,10 @@ import Todo from '@/components/Todo';
 import { SidebarDrawer } from '@/components/SidebarDrawer';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import axios from 'axios';
 
 const Page = () => {
+
   const router = useRouter();
 
   const {status, data} = useSession();
@@ -18,7 +20,7 @@ const Page = () => {
   }
 
   const [todos, setTodos] = useState<{ id: number; todo: string; complete: boolean; }[]>([]);
-  const addTodo = (todo : string) => {
+  const addTodo = async (todo : string) => {
     setTodos(prev => [
       {
         id: Date.now(),
@@ -28,6 +30,7 @@ const Page = () => {
       ...prev
     ])
   }
+
   const deleteTodo = (id: number): void => {
     setTodos(prev => prev.filter(thisTodo => thisTodo.id !== id))
   }
@@ -37,13 +40,25 @@ const Page = () => {
   const toggleComplete = (id : number) => {
     setTodos(prev => prev.map(thisTodo => thisTodo.id === id ? {...thisTodo, complete: !thisTodo.complete} : thisTodo));
   }
+
 	useEffect(() => {
-		const localTodos = JSON.parse(localStorage.getItem("todos") || "[]");
-		if (localTodos && localTodos.length > 0) setTodos(localTodos);
+    const fetchTodos = async () => {
+      axios.get("/api/todos").then(res => {
+        const localTodos = res.data
+        if (localTodos && localTodos.length > 0) setTodos(localTodos);
+      });
+    }
+    fetchTodos();
 	},[])
+
 	useEffect(() => {
-		localStorage.setItem("todos",JSON.stringify(todos));
+    const setData = async () => {
+      axios.post("/api/todos", {todos: todos})
+    }
+    setData();
+    // axios.post("/api/todos", {todos: todos}).then(res => {});
 	},[todos])
+
   return (
     <div>
       <TodoProvider value={{todos, addTodo, deleteTodo, updateTodo, toggleComplete}}>
