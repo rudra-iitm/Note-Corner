@@ -25,6 +25,19 @@ model User {
   Todo      String?
   Events    String?
   Docknotes Docknotes?
+  Invite    Invite[]
+  collaboratoinId String?
+  collabration Collabration? @relation(fields: [collaboratoinId], references: [id])
+  socketId String?
+}
+
+model Invite {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  email     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Account {
@@ -94,9 +107,11 @@ model Authenticator {
 model Docknote {
   id        String    @id @default(cuid())
   titles    String[]
-  Docknotes Docknotes @relation(fields: [id], references: [id])
+  Docknotes Docknotes @relation(fields: [DocknotesId], references: [id])
+  DocknotesId String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  Collabration Collabration[]
 }
 
 model Docknotes {
@@ -106,4 +121,13 @@ model Docknotes {
   userId    String     @unique
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+}
+
+model Collabration {
+  id        String  @id @default(cuid())
+  docknote  Docknote @relation(fields: [docknoteId], references: [id])
+  docknoteId String
+  users     User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
