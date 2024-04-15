@@ -11,7 +11,7 @@ CREATE TABLE "User" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "Todo" TEXT,
     "Events" TEXT,
-    "collaboratoinId" TEXT,
+    "collaborationId" TEXT,
     "socketId" TEXT,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
@@ -20,8 +20,9 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Invite" (
     "id" TEXT NOT NULL,
+    "docId" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
+    "senderEmail" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -95,6 +96,7 @@ CREATE TABLE "Docknote" (
 -- CreateTable
 CREATE TABLE "Docknotes" (
     "id" TEXT NOT NULL,
+    "docknotesids" TEXT[],
     "userId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -106,6 +108,7 @@ CREATE TABLE "Docknotes" (
 CREATE TABLE "Collabration" (
     "id" TEXT NOT NULL,
     "docknoteId" TEXT NOT NULL,
+    "users" TEXT[],
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -128,9 +131,6 @@ CREATE UNIQUE INDEX "Authenticator_credentialID_key" ON "Authenticator"("credent
 CREATE UNIQUE INDEX "Docknotes_userId_key" ON "Docknotes"("userId");
 
 -- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_collaboratoinId_fkey" FOREIGN KEY ("collaboratoinId") REFERENCES "Collabration"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "Invite" ADD CONSTRAINT "Invite_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -143,10 +143,4 @@ ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId"
 ALTER TABLE "Authenticator" ADD CONSTRAINT "Authenticator_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Docknote" ADD CONSTRAINT "Docknote_DocknotesId_fkey" FOREIGN KEY ("DocknotesId") REFERENCES "Docknotes"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "Docknotes" ADD CONSTRAINT "Docknotes_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Collabration" ADD CONSTRAINT "Collabration_docknoteId_fkey" FOREIGN KEY ("docknoteId") REFERENCES "Docknote"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
