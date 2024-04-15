@@ -10,7 +10,7 @@ const page = () => {
     <CardContent>
       <CodeEditor />
     </CardContent>
-  </Card>
+    </Card>
     </div>
   )
 }

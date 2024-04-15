@@ -15,7 +15,7 @@ const InputTodo = () => {
   return (
     <form onSubmit={addNewTodo} className="w-full h-8 rounded-3xl mb-8 flex gap-1">
       <Input className="flex-1 rounded-lg p-4" value={newTodo} onChange={(e) => setNewTodo(e.target.value)} placeholder="Write Todo..."/>
-			<Button className="rounded-lg w-16 h-10 ml-4" type="submit"><CiCirclePlus size={20}/></Button>
+			<Button className="rounded-lg w-16 h-10 ml-4 p-4" type="submit"><CiCirclePlus size={40} className="m-0 p-0" /></Button>
 		</form>
     )
 }
