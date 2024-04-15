@@ -15,13 +15,18 @@ import { langs } from './data';
 import axios from 'axios';
 import cheerio from 'cheerio';
 
-const CodeEditor = () => {
+const CodeEditor =  ({setEditorContentprop,idprop}:{setEditorContentprop: React.Dispatch<React.SetStateAction<string[]>>,idprop:number})  => {
   const [editorContent, setEditorContent] = useState('');
   const [token, setToken] = useState('');
   
   const [lang, setLang] = useState('');
   const handleEditorChange = (value: string) => {
     setEditorContent(value);
+    setEditorContentprop((prevContent) => {
+      const updatedContent = [...prevContent];
+      updatedContent[idprop] = value;
+      return updatedContent;
+    });
   };
   const [terminalContent, setTerminalContent] = useState('');
   const modules = {

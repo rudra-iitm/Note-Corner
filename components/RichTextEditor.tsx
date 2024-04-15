@@ -2,10 +2,15 @@ import ReactQuill from 'react-quill';
 import 'quill/dist/quill.snow.css'; // Or your desired theme CSS
 import { useState } from 'react';
 
-const RichTextEditor = () => {
+const RichTextEditor = ({setEditorContentprop,idprop}:{setEditorContentprop: React.Dispatch<React.SetStateAction<string[]>>,idprop:number}) => {
     const [editorContent, setEditorContent] = useState('');
     const handleEditorChange = (value: string) => {
         setEditorContent(value);
+        setEditorContentprop((prevContent) => {
+          const updatedContent = [...prevContent];
+          updatedContent[idprop] = value;
+          return updatedContent;
+        });
       };
       const modules = {
         toolbar: [
