@@ -1,6 +1,7 @@
 import { authOptions } from '@/app/lib/auth';
 import client from '@/db'
 import { getServerSession } from 'next-auth';
+import { NextResponse } from 'next/server';
 
 export async function GET() {
     const session = await getServerSession(authOptions);
@@ -16,15 +17,17 @@ export async function GET() {
         },
     });
 
-    const docnotesData = client.docknotes.findFirst({
+    const docsId = docnotes?.Docknotes?.docknotesids || [];
+    
+    const docs = await client.docknote.findMany({
         where: {
-            id: docnotes,
-        },
-        select: {
-            docknotes: true,
-        },
+            id: {
+                in: docsId
+            }
+        }
     });
 
-
-
+    return NextResponse.json({
+        data: docs
+    });
 }

@@ -28,24 +28,15 @@ const Sidebar = ({urll,toggleDrawer}: {urll:string,toggleDrawer: () => void}) =>
   // urll==='#'?console.log(1):console.log(2);
   // console.log(urll);
 
-  const [notes, setNotes] = useState([{
-    title: "Note 1",
-    id: 1
-  }, {
-    title: "Note 2",
-    id: 2
-  }, {
-    title: "Note 3",
-    id: 3
-  }]);
+  const [notes, setNotes] = useState([]);
 
   useEffect(() => {
-    async function getData () {
+    async function getData() {
       const { data } = await axios.get("/api/docnotes");
-      setNotes(data);
+      if (data) setNotes(data);
     }
     getData();
-  }, []);
+  }, [])
 
   const router = useRouter();
 
@@ -79,7 +70,7 @@ const Sidebar = ({urll,toggleDrawer}: {urll:string,toggleDrawer: () => void}) =>
               <li>
                 <Accordion type="single" collapsible className="py-0 px-2.5 gap-x-3.5 rounded-lg hover:bg-gray-100 dark:bg-gray-900 dark:text-white">
                     <AccordionItem value="item-1" className="border-0">
-                        <AccordionTrigger className="text-[13px] text-slate-700 font-normal py-2.5 my-0">
+                        <AccordionTrigger className={`text-[13px] text-slate-700 font-normal py-2.5 my-0 ${notes.length === 0 ? 'hidden' : ''}`}>
                         <a className="flex items-center gap-x-3.5 text-sm text-slate-700 rounded-lg dark:bg-gray-900 dark:text-white" href="#">
                                 <FaRegStickyNote className="size-4" />
                                 Notes
