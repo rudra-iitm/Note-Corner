@@ -8,10 +8,12 @@
   },
   "scripts": {
     "dev": "next dev",
+    "devsocket": "node server.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
+  "type": "module",
   "dependencies": {
     "@excalidraw/excalidraw": "^0.17.5",
     "@fullcalendar/daygrid": "^6.1.11",
@@ -54,6 +56,8 @@
     "react-hook-form": "^7.51.3",
     "react-icons": "^5.0.1",
     "react-quill": "^2.0.0",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
     "sonner": "^1.4.41",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
