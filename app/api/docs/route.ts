@@ -4,9 +4,9 @@ import { getServerSession } from "next-auth";
 
 export async function POST(req: NextRequest) {
         const session = await getServerSession();
-        const  {content}  = await req.json();
-        console.log(content);
-        if(!content){return NextResponse.json({ message: "No data Provided !!" });}
+        const  {content,title}  = await req.json();
+        console.log(content,title);
+        if(!content || !title){return NextResponse.json({ message: "No data Provided !!" });}
         // const stringifiedTodos = todos.map((todo: any) => JSON.stringify(todo));
         if(!session?.user?.email){return NextResponse.json({ message: "No user found !!" });}
         console.log(session?.user?.email);
@@ -40,35 +40,30 @@ export async function POST(req: NextRequest) {
             console.log(ds);
             const docknote=await client.docknote.create({
                 data:{
-                    title:'a',
+                    title:title,
                     content:content,
                     DocknotesId:ds.id
                 }
             });
             console.log(docknote);
+            if(!docknote){return NextResponse.json({ message: "Unable to save !!" });}
+            return NextResponse.json({ message: "Event added" , id:docknote.id });
             // const docknoteArray = 
         }
         else{
             console.log(44);
             const docknote=await client.docknote.create({
                 data:{
-                    title:'a',
+                    title:title,
                     content:content,
                     DocknotesId:docknotes.id
                 }
             });
+            // docknotes.
+            // docknotes.docknote.push(docknote);
             console.log(docknote);
+            if(!docknote){return NextResponse.json({ message: "Unable to save !!" });}
+            return NextResponse.json({ message: "Event added" , id:docknote.id });
         }
-        // console.log(1);
-        // if (docknotes) {
-        //     console.log(11);
-        //     // Docknotes database exists for the current user
-        // } else {
-        //     console.log(3);
-        //     // Docknotes database does not exist for the current user
-        // }
-        // // console.log(user);
-        
-        return NextResponse.json({ message: "Event added" });
     }
 

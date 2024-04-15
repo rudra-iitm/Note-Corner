@@ -3,7 +3,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import React, { useEffect } from 'react'
 // import motion from 'framer-motion'
-import { Toaster } from "./ui/toaster";
 import CodeEditor from './CodeEditor'
 import RichTextEditor from './RichTextEditor'
 import { Input } from './ui/input';
@@ -12,14 +11,16 @@ import { Button } from "./ui/button";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useToast } from "./ui/use-toast";
-import client from '@/db'
+import { useRouter } from "next/navigation";
 // import { SaveHandler } from "@/app/lib/save";
 
 
 export default function DocsEditor() {
+    const router=useRouter();
     const { toast } = useToast();
     const session=useSession();
     const [count, setCount] = React.useState(0);
+    const [title, setTitle] = React.useState('');
     const [prevString, setprevString] = React.useState('');
     const autoCompletion=() => {
         // url http://localhost:5959/api/v1/noteCreate/completion
@@ -55,19 +56,31 @@ export default function DocsEditor() {
         setEditorContent((prevContent) => [...prevContent, ""]);
     };
     const SaveHandler=async()=>{
+        if(title===''){toast({
+            title: "Title cannot be empty",
+          });return;}
         console.log(1);
-        const res=await axios.post('/api/docs', {"content":editorContent});
+        const res=await axios.post('/api/docs', {"content":editorContent,"title":title});
         console.log(res);
+        if(!res.data.id)
+        {
+            toast({
+            title: res.data.message,
+            variant: "destructive",
+          });
+        }
         toast({
             title: res.data.message,
           });
+          router.push(`/docsnote/${res.data.id}`);
         // console.log(editorContent);
     }
   return (
         <div className="top-28 left-4 right-4 absolute bg-white juxstify-center items-center -z-10 " >
         <div className="flex flex-row justify-end"><Button onClick={()=>{SaveHandler()}} className="bg-zinc-800 dark:bg-slate-200 text-white fixed top-5 right-5 z-20">Save Docs</Button></div>
-        <h1 id="text1" className="text-black dark:text-white font-mono font-extrabold text-4xl text-center -z-10" onMouseOver={()=>{if(open)setOpen(false)}}>Note Corner : Docs</h1>
-        <div className='overflow-auto  m-10 border-2 border-zinc-800 p-4 rounded flex flex-col space-y-10 justify-start items-center min-h-[20rem]'>
+        <h1 id="text1" className="text-black dark:text-white font-mono font-extrabold text-2xl text-center -z-10" onMouseOver={()=>{if(open)setOpen(false)}}>Note Corner : Docs</h1>
+            <div className="w-full items-center justify-center flex mt-5"><div className="w-2/4"><Input placeholder="Enter the title of the document" className="w-full h-12  rounded p-2" onChange={(e)=>{setTitle(e.target.value);}}/></div></div>
+        <div className='overflow-auto mx-10 mb-10 mt-2 border-2 border-zinc-800 p-4 rounded flex flex-col space-y-10 justify-start items-center min-h-[20rem]'>
             <div className="fixed flex flex-col top-80 left-[42px] space-y-2 justify-center items-center bg-white border-2 border-zinc-900 py-1 px-0">
                 <NotepadTextDashedIcon size={22} className='text-zinc-900 cursor-pointer' onClick={()=>{handleAddRichTextEditor(<RichTextEditor  idprop={count} setEditorContentprop={setEditorContent}/>);setCount(count+1);}}/>
                 <CodeSquare size={24} className='text-zinc-900 cursor-pointer' onClick={()=>{handleAddRichTextEditor(<CodeEditor  idprop={count} setEditorContentprop={setEditorContent}/>);setCount(count+1);}}  />
