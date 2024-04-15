@@ -45,8 +45,9 @@ export async function POST(req: NextRequest) {
                     DocknotesId:ds.id
                 }
             });
-            console.log(docknote);
             if(!docknote){return NextResponse.json({ message: "Unable to save !!" });}
+            console.log(docknote);
+            ds.docknotesids.push(docknote.id);
             return NextResponse.json({ message: "Event added" , id:docknote.id });
             // const docknoteArray = 
         }
@@ -61,8 +62,9 @@ export async function POST(req: NextRequest) {
             });
             // docknotes.
             // docknotes.docknote.push(docknote);
-            console.log(docknote);
             if(!docknote){return NextResponse.json({ message: "Unable to save !!" });}
+            console.log(docknote);
+            docknotes.docknotesids.push(docknote.id);
             return NextResponse.json({ message: "Event added" , id:docknote.id });
         }
     }
