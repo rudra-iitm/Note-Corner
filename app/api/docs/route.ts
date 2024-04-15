@@ -46,7 +46,16 @@ export async function POST(req: NextRequest) {
             console.log(docknote);
             // const docknoteArray = 
         }
-
+        else{
+            console.log(44);
+            const docknote=await client.docknote.create({
+                data:{
+                    titles:content,
+                    DocknotesId:docknotes.id
+                }
+            });
+            console.log(docknote);
+        }
         // console.log(1);
         // if (docknotes) {
         //     console.log(11);
