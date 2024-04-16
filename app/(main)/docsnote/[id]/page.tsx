@@ -1,6 +1,7 @@
 import React from 'react'
 import client from "@/db";
 import { notFound } from 'next/navigation';
+import DocsById from '@/components/DockById';
 
 interface PageProps {
     params: { id: string };
@@ -11,12 +12,17 @@ const page:React.FC<PageProps> = async({params}) => {
     const dock=await client.docknote.findFirst({
         where:{
             id:id
+        },
+        select: {
+            id: true,
+            title: true,
+            content: true
         }
     });
     if(!dock){return notFound();}
     return (
         <div>
-            
+            <DocsById props={id} title={dock.title} content={dock.content}/>
         </div>
     )
 }
