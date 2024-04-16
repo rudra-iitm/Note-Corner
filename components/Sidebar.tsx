@@ -5,16 +5,17 @@ import { FaRegStickyNote } from "react-icons/fa";
 import { GiNotebook } from "react-icons/gi";
 import { RiRobot2Fill } from "react-icons/ri";
 import { FaTrashAlt } from "react-icons/fa";
-import { IoSettingsSharp } from "react-icons/io5";
+import { IoSendSharp, IoSettingsSharp } from "react-icons/io5";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { MdLogin, MdLogout } from "react-icons/md";
+import { use, useEffect, useState } from "react";
+import { MdInsertInvitation, MdLogin, MdLogout } from "react-icons/md";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { title } from "process";
 import axios from "axios";
 import { PlusSquare, User } from "lucide-react";
 import { MdDraw } from "react-icons/md";
+import { socket } from "../app/(main)/page";
 import { color } from "framer-motion";
 
 const Sidebar = ({urll,toggleDrawer}: {urll:string,toggleDrawer: () => void}) => {
@@ -34,15 +35,42 @@ const Sidebar = ({urll,toggleDrawer}: {urll:string,toggleDrawer: () => void}) =>
 
   useEffect(() => {
     async function getData() {
-      const { data } = await axios.get("/api/docnotes");
-      console.log(data.data);
-      if (data){setNotes(data.data);}
+      const { data : { data } } = await axios.get("/api/docnotes");
+      console.log(data);
+      setNotes(data);
     }
     getData();
   }, [])
 
   const router = useRouter();
-
+  const [invites, setInvites] = useState<{
+    senderEmail: string;
+    receiverEmail: string;
+    docId: string;
+  }[]>([]);
+  useEffect(() => {
+    const getInvites = async () => {
+      const res = await axios.get("/api/user/invites");
+      console.log("data", res);
+      // setInvites(data?.data || []);
+    }
+    getInvites();
+  }, [])
+  const { data } = useSession();
+  const userEmail = data?.user?.email;
+  const acceptInvite = async (senderEmail : string) => {
+    const res1 = await axios.get(`/api/user/${userEmail}`);
+    const receiverId = res1.data.socketId;
+    const res2 = await axios.get(`/api/user/${senderEmail}`);
+    const senderId = res2.data.socketId;
+    socket.emit("accept", { receiverEmail : userEmail, receiverId, senderEmail, senderId });
+  }
+  useEffect(() => {
+    socket.on("invite", (data) => {
+      console.log("invitation",data);
+      setInvites(prev => [data, ...prev]);
+    });
+  }, []);
   return (
     <div>
         <div id="docs-sidebar" className="hs-overlay [--auto-close:lg] hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden fixed top-0 start-0 bottom-0 z-[60] w-64 bg-white border-e border-gray-200 pt-7 pb-10 overflow-y-auto sm:block sm:translate-x-0 sm:end-auto sm:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-slate-500 dark:bg-gray-800 dark:border-gray-700">
@@ -111,6 +139,31 @@ const Sidebar = ({urll,toggleDrawer}: {urll:string,toggleDrawer: () => void}) =>
                 <MdDraw className="size-4" />
                 Excalidraw
               </a></li>
+              <li>
+                <Accordion type="single" collapsible className="py-0 px-2.5 gap-x-3.5 rounded-lg hover:bg-gray-100 dark:bg-gray-900 dark:text-white">
+                    <AccordionItem value="item-1" className="border-0">
+                        <AccordionTrigger className={`text-[13px] text-slate-700 font-normal py-2.5 my-0 ${notes.length === 0 ? 'hidden' : ''}`}>
+                        <a className="flex items-center gap-x-3.5 text-sm text-slate-700 rounded-lg dark:bg-gray-900 dark:text-white" href="#">
+                                <IoSendSharp/>
+                                Invites
+                        </a>
+                            </AccordionTrigger>
+                        <AccordionContent>
+                        <ul className="space-y-1.5">
+                          {invites.map(({senderEmail}) => (
+                            <li key={senderEmail} onClick={() => {
+                              setInvites([]);
+                              acceptInvite(senderEmail);
+                            }
+                            }>
+                                {senderEmail}
+                            </li>
+                          ))}
+                        </ul>
+                        </AccordionContent>
+                    </AccordionItem>
+                </Accordion>
+              </li>
             </ul>
             <ul className="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
             {/* <li>
