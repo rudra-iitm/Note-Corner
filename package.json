@@ -7,7 +7,7 @@
     "@lib/auth": "./apps/lib/auth.ts"
   },
   "scripts": {
-    "corner": "concurrently \"next dev\" \"node aiBackend/src/index.js\"",
+    "corner": "concurrently \"node server.js\" \"next dev\" \"node aiBackend/src/index.js\"",
     "dev": "next dev",
     "devsocket": "node server.js",
     "build": "next build",
