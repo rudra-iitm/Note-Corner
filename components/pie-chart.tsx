@@ -1,6 +1,7 @@
 'use client';
 import { ResponsivePie } from "@nivo/pie"
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 export function PieChartComponent() {
@@ -11,10 +12,12 @@ export function PieChartComponent() {
 }
 
 export function PieChart( props: any, ) {
+  const {status} = useSession();
   const [data, setData] = useState({completed: 100, incomplete: 0});
 
   useEffect(() => {
     async function fetchData() {
+      if(status!=="authenticated"){return;}
       const {data} = await axios.get("/api/todos/stats");
       // console.log(data);
       setData(data);

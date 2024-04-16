@@ -35,6 +35,7 @@ const Sidebar = ({urll,toggleDrawer}: {urll:string,toggleDrawer: () => void}) =>
 
   useEffect(() => {
     async function getData() {
+      if(status!=="authenticated"){return;}
       const { data : { data } } = await axios.get("/api/docnotes");
       console.log(data);
       setNotes(data);
@@ -50,6 +51,7 @@ const Sidebar = ({urll,toggleDrawer}: {urll:string,toggleDrawer: () => void}) =>
   }[]>([]);
   useEffect(() => {
     const getInvites = async () => {
+      if(status!=="authenticated"){return;}
       const { data : { Invite } } = await axios.get("/api/user/invites");
       console.log("data",Invite);
       setInvites(Invite.map(({senderEmail, docId}: {senderEmail: string, docId: string}) => ({senderEmail, receiverEmail : userEmail, docId})));

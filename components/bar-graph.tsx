@@ -3,6 +3,7 @@ import { CardTitle, CardDescription, CardHeader, CardContent, Card } from "@/com
 import { ResponsiveBar } from "@nivo/bar"
 import axios from "axios"
 import { set } from "date-fns";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react"
 
 export function BarGraph() {
@@ -20,10 +21,12 @@ export function BarGraph() {
 }
 
 function BarChart(props: any) {
+  const {status} = useSession();
   const [data, setData] = useState<{ name: string; count: number }[]>([]);
 
   useEffect(() => {
     async function fetchData() {
+      if(status!=="authenticated"){return;}
       const { data } = await axios.get("/api/event/stats");
       // console.log(data);
       for (let i = 0; i < data.length && i < 6; i++) {
