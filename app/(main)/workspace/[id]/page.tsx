@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 interface PageProps {
     params: { id: string };
 }
-const page:React.FC<PageProps> = async({params}) => {
+const Page:React.FC<PageProps> = async({params}) => {
     const { id } = params;
     console.log(id);
     const dock=await client.docknotes.findFirst({
@@ -20,4 +20,4 @@ const page:React.FC<PageProps> = async({params}) => {
     )
 }
 
-export default page
+export default Page

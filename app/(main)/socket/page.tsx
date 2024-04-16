@@ -8,7 +8,7 @@ import io from "socket.io-client";
 
 const socket = io("http://localhost:6969");
 
-const page = () => {
+const Page = () => {
   const session = useSession();
   // console.log("session",session);
   const [userEmail, setUserEmail] = useState(session.data?.user?.email);
@@ -45,4 +45,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
