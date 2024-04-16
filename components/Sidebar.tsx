@@ -7,16 +7,17 @@ import { RiRobot2Fill } from "react-icons/ri";
 import { FaTrashAlt } from "react-icons/fa";
 import { IoSettingsSharp } from "react-icons/io5";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { MdLogin, MdLogout } from "react-icons/md";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
+import { title } from "process";
+import axios from "axios";
 import { PlusSquare, User } from "lucide-react";
+import { MdDraw } from "react-icons/md";
 
 const Sidebar = ({urll,toggleDrawer}: {urll:string,toggleDrawer: () => void}) => {
-  const {status, data} = useSession();
-  const router = useRouter();
-  console.log(status);
+  const { data: session, status } = useSession();
   // const currentUrl = window.location.pathname;
   // const currentUrl = router.asPath;
   // router.
@@ -27,6 +28,20 @@ const Sidebar = ({urll,toggleDrawer}: {urll:string,toggleDrawer: () => void}) =>
   // const currentUrlArray = currentUrl.split("/");
   // urll==='#'?console.log(1):console.log(2);
   // console.log(urll);
+
+  const [notes, setNotes] = useState([]);
+
+  useEffect(() => {
+    async function getData() {
+      const { data } = await axios.get("/api/docnotes");
+      console.log(data.data);
+      if (data){setNotes(data.data);}
+    }
+    getData();
+  }, [])
+
+  const router = useRouter();
+
   return (
     <div>
         <div id="docs-sidebar" className="hs-overlay [--auto-close:lg] hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden fixed top-0 start-0 bottom-0 z-[60] w-64 bg-white border-e border-gray-200 pt-7 pb-10 overflow-y-auto sm:block sm:translate-x-0 sm:end-auto sm:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-slate-500 dark:bg-gray-800 dark:border-gray-700">
@@ -57,7 +72,7 @@ const Sidebar = ({urll,toggleDrawer}: {urll:string,toggleDrawer: () => void}) =>
               <li>
                 <Accordion type="single" collapsible className="py-0 px-2.5 gap-x-3.5 rounded-lg hover:bg-gray-100 dark:bg-gray-900 dark:text-white">
                     <AccordionItem value="item-1" className="border-0">
-                        <AccordionTrigger className="text-[13px] text-slate-700 font-normal py-2.5 my-0">
+                        <AccordionTrigger className={`text-[13px] text-slate-700 font-normal py-2.5 my-0 ${notes.length === 0 ? 'hidden' : ''}`}>
                         <a className="flex items-center gap-x-3.5 text-sm text-slate-700 rounded-lg dark:bg-gray-900 dark:text-white" href="#">
                                 <FaRegStickyNote className="size-4" />
                                 Notes
@@ -65,24 +80,14 @@ const Sidebar = ({urll,toggleDrawer}: {urll:string,toggleDrawer: () => void}) =>
                             </AccordionTrigger>
                         <AccordionContent>
                         <ul className="space-y-1.5">
-                            <li>
-                                <a className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-200 dark:bg-gray-900 dark:text-white" href="#">
+                          {notes.map(({title, id}) => (
+                            <li key={id}>
+                                <Link href={`/docsnote/${id}`} className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-200 dark:bg-gray-900 dark:text-white">
                                 <GiNotebook className="size-4" />
-                                Note 1
-                                </a>
+                                {title || "Untitled"}
+                                </Link>
                             </li>
-                            <li>
-                                <a className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-200 dark:bg-gray-900 dark:text-white" href="#">
-                                <GiNotebook className="size-4" />
-                                Note 2
-                                </a>
-                            </li>
-                            <li>
-                                <a className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-200 dark:bg-gray-900 dark:text-white" href="#">
-                                <GiNotebook className="size-4" />
-                                Note 3
-                                </a>
-                            </li>
+                          ))}
                         </ul>
                         </AccordionContent>
                     </AccordionItem>
@@ -100,6 +105,10 @@ const Sidebar = ({urll,toggleDrawer}: {urll:string,toggleDrawer: () => void}) =>
               <li><a className={`flex items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 ${urll==='to-do'?'text-blue-500':'text-slate-700'}`} href="/to-do">
                 <svg className="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
                 To Do
+              </a></li>
+              <li><a className={`flex items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 ${urll==='excalidraw'?'text-blue-500':'text-slate-700'}`} href="/excalidraw">
+                <MdDraw className="size-4" />
+                Excalidraw
               </a></li>
             </ul>
             <ul className="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
@@ -124,7 +133,7 @@ const Sidebar = ({urll,toggleDrawer}: {urll:string,toggleDrawer: () => void}) =>
             </a>
          </li>
          <li>
-            <Link href="#" onClick={() =>{ if(status==="authenticated"){signOut({callbackUrl: '/'})}else{router.push("/sign-in")}}}
+            <Link href="/sign-in" onClick={() =>{ if(status==="authenticated"){signOut({callbackUrl: '/'})}else{router.push("/sign-in")}}}
             className="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
                 {status==="authenticated"?<MdLogin className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />:<MdLogin className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />}
                {status==="authenticated"?<span className="ms-3">Log out</span>:<span className="ms-3">Log in</span>}

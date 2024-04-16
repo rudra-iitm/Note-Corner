@@ -45,8 +45,18 @@ export async function POST(req: NextRequest) {
                     DocknotesId:ds.id
                 }
             });
-            console.log(docknote);
             if(!docknote){return NextResponse.json({ message: "Unable to save !!" });}
+            console.log(docknote);
+            const Tarr=ds.docknotesids
+            Tarr.push(docknote.id);
+            await client.docknotes.update({
+                where: {
+                    id: ds.id,
+                },
+                data: {
+                    docknotesids: Tarr
+                }
+            });
             return NextResponse.json({ message: "Event added" , id:docknote.id });
             // const docknoteArray = 
         }
@@ -61,8 +71,19 @@ export async function POST(req: NextRequest) {
             });
             // docknotes.
             // docknotes.docknote.push(docknote);
-            console.log(docknote);
             if(!docknote){return NextResponse.json({ message: "Unable to save !!" });}
+            console.log(docknote);
+            const Tarr=docknotes.docknotesids
+            Tarr.push(docknote.id);
+            await client.docknotes.update({
+                where: {
+                    id: docknotes.id,
+                },
+                data: {
+                    docknotesids: Tarr
+                }
+            });
+            // docknotes.docknotesids.push(docknote.id);
             return NextResponse.json({ message: "Event added" , id:docknote.id });
         }
     }

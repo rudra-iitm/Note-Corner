@@ -1,3 +1,5 @@
+import { SidebarDrawer } from "@/components/SidebarDrawer";
+import { Card } from "@/components/ui/card";
 import dynamic from "next/dynamic";
 
 const ExcalidrawWrapper = dynamic(
@@ -9,6 +11,13 @@ const ExcalidrawWrapper = dynamic(
 
 export default function Page() {
   return (
-    <ExcalidrawWrapper />      
+    <div>
+      <SidebarDrawer urll='excalidraw'/>
+      <div className="flex justify-center items-center mt-28">
+        <Card>
+          <ExcalidrawWrapper />
+        </Card>
+      </div>
+    </div>     
   );
 }
