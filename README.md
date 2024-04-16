@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Note Corner
 
-First, run the development server:
+Our project is a comprehensive productivity web application designed to streamline various tasks and enhance user efficiency. Combining an array of features within a single platform, our web app serves as a versatile toolkit for users seeking a consolidated solution for productivity management.
+
+## Key Features:
+
+- ```Rich Text Editing```: Our app supports rich text editing capabilities, empowering users to format, style, and organize their textual content with ease. Whether it's drafting documents, composing emails, or taking notes, the rich text editor provides a seamless experience.
+
+- ```AI Integration```: Our app leverages AI algorithms to analyze user input and APIs to provide prompts and output results. Additionally, it suggests inline text suggestions when users write in the text editor.
+
+- ```Block Code Execution```: With built-in support for block code execution, our app enables users to write and execute code snippets directly within the interface. This feature caters to developers, students, and professionals alike, facilitating rapid prototyping, testing, and debugging.
+
+- ```Todos```: The Todos feature offers a convenient task management system, allowing users to create, organize, and track their tasks effectively. Users can set priorities, deadlines, and reminders, ensuring efficient task completion and time management.
+
+- ```Calendar and Events```: Our app includes a dynamic calendar functionality, enabling users to schedule and manage events, appointments, and meetings effortlessly. Integration with the calendar allows for seamless synchronization and reminders, enhancing productivity and organization.
+
+- ```Excalidraw Embed```: Integration of Excalidraw, a collaborative whiteboard tool, enhances visual communication and brainstorming within the app. Users can create, annotate, and share diagrams, flowcharts, and sketches seamlessly, fostering collaboration and creativity.
+
+Overall, our AI-enabled productivity web app redefines productivity management by seamlessly integrating traditional productivity features with cutting-edge AI capabilities. By harnessing the power of AI, users can optimize their workflow, make data-driven decisions, and achieve peak productivity with minimal effort.
+
+
+## Run Locally
+
+Clone the project
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+  git clone https://github.com/Rudra-IITM/Note-Corner
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Go to the project directory
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+  cd Note-Corner
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Install dependencies
 
-## Learn More
+```bash
+  npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+Setup environment variables
+```bash
+  cp .env.example .env
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Migrate database
+```bash
+  npx prisma migrate dev
+```
+  
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Start AI server
 
-## Deploy on Vercel
+```bash
+  node aiBackend/src/index.js
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Start the Next App
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```bash
+  npm run dev
+```
+## Tech Stack
+
+**Client:** Next, TailwindCSS, NextAuth, DratJS, Judge0
+
+**Server:** Node, Express, Next, Prisma
+
+**Database:** ProstreSQL
+
+**Component Library:** ShadCN
+
+
+## Dependencies
+
+**Google Auth:** If want to sign in with google locally.
+
+**Judge0 API credentails:** For code execution.
