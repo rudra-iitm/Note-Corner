@@ -72,6 +72,7 @@ export default function DocsEditor() {
         toast({
             title: res.data.message,
           });
+          console.log(res.data.id);
           router.push(`/docsnote/${res.data.id}`);
         // console.log(editorContent);
     }

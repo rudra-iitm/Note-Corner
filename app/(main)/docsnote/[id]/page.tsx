@@ -2,6 +2,7 @@ import React from 'react'
 import client from "@/db";
 import { notFound } from 'next/navigation';
 import DocsById from '@/components/DockById';
+import { SidebarDrawer } from '@/components/SidebarDrawer';
 
 interface PageProps {
     params: { id: string };
@@ -22,6 +23,7 @@ const page:React.FC<PageProps> = async({params}) => {
     if(!dock){return notFound();}
     return (
         <div>
+            <SidebarDrawer urll='docsnoteid'/>
             <DocsById props={id} title={dock.title} content={dock.content}/>
         </div>
     )
