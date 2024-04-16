@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 export async function POST(req: NextRequest) {
         const session = await getServerSession();
         const  {content,title,id}  = await req.json();
-        console.log(content,title,id);
+        // console.log(content,title,id);
         if(!content || !title || !id){return NextResponse.json({ message: "No data Provided !!" });}
         // const stringifiedTodos = todos.map((todo: any) => JSON.stringify(todo));
         try

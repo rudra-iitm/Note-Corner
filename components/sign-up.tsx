@@ -31,7 +31,7 @@ export function SignUp() {
       return;}
       try {
         const res=await signup(email, password);
-        console.log(res);
+        // console.log(res);
         // if(res && res.error){
         //   toast({
         //     title: "Sign in failed!",
@@ -39,7 +39,7 @@ export function SignUp() {
         //   })
   
       } catch (err) {
-        console.log(err);
+        // console.log(err);
         toast({
           title: "Sign Up failed! Probably account already exists. Please sign in.",
           variant: "destructive",
@@ -60,7 +60,7 @@ export function SignUp() {
         // await signup(email, password);
         // const data={'email':email,'password':password};
         
-    console.log("Form submitted");
+    // console.log("Form submitted");
   };
   return (
     <div className="h-screen min-h-[40rem] w-full overflow-x-hidden dark:bg-black flex flex-col justify-center items-center mx-auto my-auto">
