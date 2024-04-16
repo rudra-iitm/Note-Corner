@@ -19,6 +19,8 @@ Our project is a comprehensive productivity web application designed to streamli
 
 - ```Excalidraw Embed```: Integration of Excalidraw, a collaborative whiteboard tool, enhances visual communication and brainstorming within the app. Users can create, annotate, and share diagrams, flowcharts, and sketches seamlessly, fostering collaboration and creativity.
 
+- ```Collaborative Environment```: Users can work together in real-time, typically to edit, create, or manage content.
+
 Overall, our AI-enabled productivity web app redefines productivity management by seamlessly integrating traditional productivity features with cutting-edge AI capabilities. By harnessing the power of AI, users can optimize their workflow, make data-driven decisions, and achieve peak productivity with minimal effort.
 
 
