@@ -44,6 +44,9 @@ const CodeEditor =  ({setEditorContentprop,idprop,iniContent}:{setEditorContentp
     const $ = cheerio.load(editorContent);
     const preContent = $('pre').text();
     const preContentBase64 = Buffer.from(preContent).toString('base64');
+    if (lang == '' || preContentBase64 == '') { 
+      return;
+    }
     setRunning(true);
     const { data } = await axios.post('http://localhost:3000/api/code/submission', {
       languageId: lang,
