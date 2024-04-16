@@ -31,7 +31,7 @@ const Navbar = () => {
   if(windowSize.width<600)
     {return<div className="fixed top-0 inset-x-0 w-screen bg-zinc-300 h-32 z-30"></div>}
     return (
-        <div className="fixed top-6 inset-x-0 max-w-md mx-auto z-30">
+        <div className="fixed top-6 inset-x-0 max-w-md mx-auto z-50">
         <Menu setActive={setActive}>
           <MenuItem setActive={setActive} active={active} item="Features">
             <div className="flex flex-col space-y-4 text-sm">

@@ -91,7 +91,7 @@ export default  function DocsById({props,title,content}:{props:string,title:stri
         // console.log(editorContent);
     }
   return (
-        <div className="top-28 left-4 right-4 absolute bg-white juxstify-center items-center -z-10 " >
+        <div className="top-28 left-4 right-4 absolute bg-white juxstify-center items-center z-30 " >
         <div className="flex flex-row justify-end"><Button onClick={()=>{handleModify()}} className="bg-zinc-800 dark:bg-slate-200 text-white fixed top-5 right-5 z-20">Modify Docs</Button></div>
         <h1 id="text1" className="text-black dark:text-white font-mono font-extrabold text-2xl text-center -z-10" onMouseOver={()=>{if(open)setOpen(false)}}>Note Corner : Docs</h1>
             <div className="w-full items-center justify-center flex mt-5"><div className="w-2/4 flex flex-row"><Input placeholder="Enter the title of the document" className="w-full h-12  rounded p-2" readOnly={!editable} value={newtitle} onChange={(e)=>{setnewTitle(e.target.value);}}/> {editable?<SaveIcon size={40} onClick={()=>{handleModify(); setEditable(false);}} className="cursor-pointer pt-2"/>:<PenSquareIcon size={40} onClick={()=>{setEditable(true);}} className="cursor-pointer pt-2"/>}</div></div>

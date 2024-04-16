@@ -37,7 +37,7 @@ const Chat_ai = () => {
 
   return (
     <div>
-    <div className="mt-20 h-[80vh] h-max-[80vh] grid p-4 gap-4 items-center">
+    <div className="sm:mt-20 h-[80vh] h-max-[80vh] grid p-4 gap-4 items-center mt-40">
       <Card className="w-full max-w-3xl mx-auto h-full">
       <CardHeader className="rounded-t-lg">
           <h2 className="text-xl font-bold">Chat with our AI</h2>

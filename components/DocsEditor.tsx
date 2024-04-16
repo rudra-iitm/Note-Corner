@@ -77,8 +77,8 @@ export default function DocsEditor() {
         // console.log(editorContent);
     }
   return (
-        <div className="top-28 left-4 right-4 absolute bg-white juxstify-center items-center -z-10 " >
-        <div className="flex flex-row justify-end"><Button onClick={()=>{SaveHandler()}} className="bg-zinc-800 dark:bg-slate-200 text-white fixed top-5 right-5 z-20">Save Docs</Button></div>
+        <div className="top-28 left-4 right-4 absolute bg-white juxstify-center items-center z-30 " >
+        <div className="flex flex-row justify-end"><Button onClick={()=>{SaveHandler()}} className="bg-zinc-800 dark:bg-slate-200 text-white fixed top-5 right-5 z-50">Save Docs</Button></div>
         <h1 id="text1" className="text-black dark:text-white font-mono font-extrabold text-2xl text-center -z-10" onMouseOver={()=>{if(open)setOpen(false)}}>Note Corner : Docs</h1>
             <div className="w-full items-center justify-center flex mt-5"><div className="w-2/4"><Input placeholder="Enter the title of the document" className="w-full h-12  rounded p-2" onChange={(e)=>{setTitle(e.target.value);}}/></div></div>
         <div className='overflow-auto mx-10 mb-10 mt-2 border-2 border-zinc-800 p-4 rounded flex flex-col space-y-10 justify-start items-center min-h-[20rem]'>
