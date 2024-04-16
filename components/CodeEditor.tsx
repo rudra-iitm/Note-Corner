@@ -15,8 +15,9 @@ import { langs } from './data';
 import axios from 'axios';
 import cheerio from 'cheerio';
 
-const CodeEditor =  ({setEditorContentprop,idprop}:{setEditorContentprop: React.Dispatch<React.SetStateAction<string[]>>,idprop:number})  => {
-  const [editorContent, setEditorContent] = useState('');
+const CodeEditor =  ({setEditorContentprop,idprop,iniContent}:{setEditorContentprop: React.Dispatch<React.SetStateAction<string[]>>,idprop:number,iniContent:string})  => {
+  const restEdiCon=iniContent.substring(1);
+  const [editorContent, setEditorContent] = useState(restEdiCon);
   const [token, setToken] = useState('');
   
   const [lang, setLang] = useState('');
@@ -24,7 +25,7 @@ const CodeEditor =  ({setEditorContentprop,idprop}:{setEditorContentprop: React.
     setEditorContent(value);
     setEditorContentprop((prevContent) => {
       const updatedContent = [...prevContent];
-      updatedContent[idprop] = value;
+      updatedContent[idprop] = '1'+value;
       return updatedContent;
     });
   };
