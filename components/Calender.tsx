@@ -89,7 +89,7 @@ export default function ReactBigCalendar() {
         await axios.post("/api/event", {events: [...events, temp]})
       }else {
         const uniqueId = uuidv4();
-        console.log(uniqueId);
+        // console.log(uniqueId);
         setEvents(prev => [...prev,{ title: event+seperator+time+seperator+Math.floor(Math.random() * eventColors.length).toString()+seperator+range.toString()+seperator+uniqueId, start: startDate!, end: endDate }])
         const temp = { title: event+seperator+time+seperator+Math.floor(Math.random() * eventColors.length).toString()+seperator+range.toString()+seperator+id, start: startDate!, end: endDate }
         await axios.post("/api/event", {events: [...events, temp]})
@@ -98,7 +98,7 @@ export default function ReactBigCalendar() {
     const showEditEventDialog = (e : any) => {
       const { event : { title, start, end } } = e;
       const [event, time, _color, _range, uniqueId] = title.split(seperator);
-      console.log("id",uniqueId);
+      // console.log("id",uniqueId);
       setId(uniqueId);
       setEvent(event);
       setTime(time);

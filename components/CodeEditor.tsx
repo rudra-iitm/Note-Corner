@@ -57,7 +57,7 @@ const CodeEditor =  ({setEditorContentprop,idprop,iniContent}:{setEditorContentp
         'Content-Type': 'application/json'
       }
     });
-    console.log(data.data.token);
+    // console.log(data.data.token);
     setToken(data.data.token);
   }
 
@@ -81,7 +81,7 @@ const CodeEditor =  ({setEditorContentprop,idprop,iniContent}:{setEditorContentp
   }
 
   useEffect(() => {
-    console.log(token)
+    // console.log(token)
     if(token) {
       const interval = setTimeout(() => {
         pollResponse(token);

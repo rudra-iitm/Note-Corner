@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
 
         const stringifiedTodos =  JSON.stringify(todos);
         // const stringifiedTodos = todos.map((todo: any) => JSON.stringify(todo));
-        console.log('Todos', stringifiedTodos);
+        // console.log('Todos', stringifiedTodos);
 
         const user = await client.user.update({
             where: 
@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
             }
         )
 
-        console.log(user);
+        // console.log(user);
 
         return NextResponse.json({ message: "Todo added" });
     }
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
             }
         });
 
-        console.log(todos?.Todo);
+        // console.log(todos?.Todo);
 
 
         return NextResponse.json(JSON.parse(todos?.Todo || "[]"));

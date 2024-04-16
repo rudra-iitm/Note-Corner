@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
         }
     });
 
-    console.log(user.id);
+    // console.log(user.id);
 
     return NextResponse.json({ message: "Signed up" });
 }

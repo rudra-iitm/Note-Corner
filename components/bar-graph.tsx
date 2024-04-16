@@ -25,7 +25,7 @@ function BarChart(props: any) {
   useEffect(() => {
     async function fetchData() {
       const { data } = await axios.get("/api/event/stats");
-      console.log(data);
+      // console.log(data);
       for (let i = 0; i < data.length && i < 6; i++) {
         setData((prev) => [...prev, { name: data[i][0], count: data[i][1] }]);
       }

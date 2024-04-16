@@ -28,10 +28,10 @@ export default function DocsEditor() {
             "message":prevString
           })
           .then(function (response) {
-            console.log(response);
+            // console.log(response);
           })
           .catch(function (error) {
-            console.log(error);
+            // console.log(error);
           });
         }
     const [open, setOpen] = React.useState(false);
@@ -59,9 +59,9 @@ export default function DocsEditor() {
         if(title===''){toast({
             title: "Title cannot be empty",
           });return;}
-        console.log(1);
+        // console.log(1);
         const res=await axios.post('/api/docs', {"content":editorContent,"title":title});
-        console.log(res);
+        // console.log(res);
         if(!res.data.id)
         {
             toast({
@@ -72,7 +72,7 @@ export default function DocsEditor() {
         toast({
             title: res.data.message,
           });
-          console.log(res.data.id);
+        //   console.log(res.data.id);
           router.push(`/docsnote/${res.data.id}`);
         // console.log(editorContent);
     }

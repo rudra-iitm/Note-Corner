@@ -12,7 +12,7 @@ export async function signup(email: string, password: string) {
         }
     });
 
-    console.log(user.id);
+    // console.log(user.id);
 
     return "Signed up!"
 }

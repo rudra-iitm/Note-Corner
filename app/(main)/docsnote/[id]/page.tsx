@@ -9,7 +9,7 @@ interface PageProps {
 }
 const page:React.FC<PageProps> = async({params}) => {
     const { id } = params;
-    console.log(id);
+    // console.log(id);
     const dock=await client.docknote.findFirst({
         where:{
             id:id
