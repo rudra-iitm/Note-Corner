@@ -40,9 +40,9 @@ const page = () => {
     //   setSocketId();
     // }, [socket, userEmail]);
     const invite = async (receiverEmail : string) => {
-      const res1 = await axios.get(`/api/user/${receiverEmail}`);
+      const res1 = await axios.get(`/api/user/email/${receiverEmail}`);
       const receiverId = res1.data.socketId;
-      const res2 = await axios.get(`/api/user/${userEmail}`);
+      const res2 = await axios.get(`/api/user/email/${userEmail}`);
       const senderId = res2.data.socketId;
       socket.emit("invite", { receiverEmail, receiverId, senderEmail : userEmail, senderId });
     }
