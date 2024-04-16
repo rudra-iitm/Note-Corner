@@ -20,11 +20,11 @@ export async function POST(req : NextRequest) {
       id: true,
     }
   })
-  if (user.collaborationId === null) {
+  if (user?.collaborationId === null) {
     const collabration = await client.collabration.create({
       data: {
         docknoteId: docId,
-        user: [user.id, receiverUser.id]
+        users: [user.id, receiverUser?.id || ""]
       },
       select: {
         id: true,
@@ -47,31 +47,44 @@ export async function POST(req : NextRequest) {
       }
     })
   } else {
+    const collabration = await client.collabration.findFirst({
+      where: {
+        id: user?.collaborationId,
+      },
+      select: {
+        users: true,
+      }
+    })
+    const newUsers = collabration?.users;
+    newUsers?.push(receiverUser?.id || "");
     await client.collabration.update({
       where: {
-        id: user.collaborationId,
+        id: user?.collaborationId,
       },
       data: {
-        user: {
-          connect: {
-            email: receiverEmail,
+        users: newUsers,
+      }
+    })
+    await client.user.update({
+      where: {
+        email: receiverEmail,
+      },
+      data: {
+        collaborationId: user?.collaborationId,
+      }
+    })
+    await client.user.update({
+      where: {
+        email: senderEmail,
+      },
+      data: {
+        Invite:{
+          deleteMany: {
+            senderEmail,
           }
         }
       }
     })
   }
-  const user = await client.user.update({
-    where: {
-      email: senderEmail,
-    },
-    data: {
-      Invite : {
-        create : {
-          receiverEmail,
-          docId,
-        }
-      }
-    }
-  })
-  return NextResponse.json(user);
+  return NextResponse.json("invite accepted");
 }
