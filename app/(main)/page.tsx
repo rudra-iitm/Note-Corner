@@ -1,4 +1,5 @@
 "use client";
+import { SocialIcon } from 'react-social-icons'
 import { Boxes, BoxesCore } from "@/components/ACui/background-boxes";
 import { TypewriterEffectSmooth } from "@/components/ACui/typewriter-effect";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -13,6 +14,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import Link from "next/link";
 import io from "socket.io-client";
 import axios from "axios";
+import { HomeIcon, MailIcon, Phone, TicketCheck } from 'lucide-react';
 
 export const socket = io("http://localhost:6969");
 
@@ -127,9 +129,9 @@ export default function Home() {
   if(windowSize.width>=1024)
   {
     return (
-    <div className="h-[100rem] w-full flex flex-col justify-start items-center pt-2 overflow-x-hidden -z-10">
+    <div className="h-[120rem] w-full flex flex-col justify-start items-center pt-2 overflow-x-hidden -z-10">
       <SidebarDrawer urll="/"/>
-    <motion.div className='flex flex-row overflow-x-hidden overflow-y-hidden h-[39rem] z-20' id='inner'>
+    <motion.div className='flex flex-row overflow-x-hidden overflow-y-hidden h-[39rem] z-20 pt-10' id='inner'>
     <motion.div className="flex flex-col gap-7 items-center justify-center px-4 w-1/2 h-full" id='textEl'
         initial={{
           opacity: 0,
@@ -181,11 +183,73 @@ export default function Home() {
         </Link>
       ))}
     </div>
+    <div className='w-full flex flex-row pt-72 '>
+        <div className='w-1/2 h-40 mt-20 bg-zinc-900 flex flex-row items-center justify-center space-x-4'>
+            <h1 className='text-center text-zinc-300 font-serif pr-4'>Establish Communication With Us</h1>
+            <SocialIcon url="mailto:shivam181106@gmail.com" className='h-8 w-8 text-zinc-300 items-center justify-center'/>
+            <SocialIcon url="https://www.linkedin.com/in/shivam-jaiswal-54088a266/" className='h-8 w-8 text-zinc-300 items-center justify-center'/>
+            <SocialIcon url="https://twitter.com" className='h-8 w-8 text-zinc-300 items-center justify-center'/>
+            <SocialIcon url="https://instagram.com" className='h-8 w-8 text-zinc-300 items-center justify-center'/>
+            <SocialIcon url="https://youtube.com" className='h-8 w-8 text-zinc-300 items-center justify-center'/>
+        </div>
+        <div className='h-40 mt-20 border-l-2 border-zinc-600'></div>
+        <div className='w-1/2 h-40 mt-20 bg-zinc-900'>
+        <div className='flex flex-row'>
+          <div  className='mx-auto mb-md-0 mb-4 text-zinc-200 pt-2'>
+              <h6 className='font-bold mb-3 uppercase'>Useful links</h6>
+              <p>
+                <a href='/chat-ai' className='font-mono text-zinc-200 hover:text-blue-400'>
+                  Ask AI
+                </a>
+              </p>
+              <p>
+                <a href='/docsnote' className='font-mono text-zinc-200 hover:text-blue-400'>
+                  DocsNote
+                </a>
+              </p>
+              <p>
+                <a href='/calendar' className='font-mono text-zinc-200 hover:text-blue-400'>
+                  Calendar
+                </a>
+              </p>
+              <p>
+                <a href='/to-do' className='font-mono text-zinc-200 hover:text-blue-400'>
+                  Todo
+                </a>
+              </p>
+            </div>
+
+            <div  className='mx-auto mb-md-0 mb-4 text-white pt-2'>
+              <h6 className='font-bold mb-3 uppercase'>Contact</h6>
+              <p className='flex flex-row'>
+                <HomeIcon className='h-6 w-6 text-zinc-300 justify-center pr-2 items-end'/>
+                Mandi, Himachal Pradesh, India
+              </p>
+              <p className='flex flex-row'>
+              <MailIcon className='h-6 w-6 text-zinc-300 justify-center pr-2 items-end'/>
+                shivam181106@gmail.com
+              </p>
+              <p className='flex flex-row'>
+              <Phone className='h-6 w-6 text-zinc-300 justify-center pr-2 items-end'/> + 9628498661
+              </p>
+              <p className='flex flex-row'>
+              <TicketCheck className='h-6 w-6 text-zinc-300 justify-center pr-2 items-end'/> + 99999999999
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className='text-center p-4 bg-zinc-300 bottom-0 w-full'>
+        © 2024 Copyright  :
+        <a className='font-medium pl-2' href='https://mdbootstrap.com/'>
+          Note Corner
+        </a>
+      </div>
     </div>
   );
 }else if(windowSize.width>=640){
   return(
-    <div className="h-[100rem] w-full flex flex-col justify-start items-center pt-2 overflow-x-hidden -z-10">
+    <div className="h-[110rem] w-full flex flex-col justify-start items-center pt-2 overflow-x-hidden -z-10">
       <SidebarDrawer urll="/"/>
     <motion.div className='flex flex-row overflow-x-hidden overflow-y-hidden h-[39rem] z-20'>
     <motion.div className="flex flex-col gap-7 items-center justify-center px-4 w-full h-full"
@@ -224,6 +288,68 @@ export default function Home() {
         </Link>
       ))}
     </div>
+    <div className='w-full flex flex-row pt-72 '>
+        <div className='w-1/2 h-40 mt-20 bg-zinc-900 flex flex-row items-center justify-center space-x-4'>
+            <h1 className='text-center text-zinc-300 font-serif pr-4'>Establish Communication With Us</h1>
+            <SocialIcon url="mailto:shivam181106@gmail.com" className='h-8 w-8 text-zinc-300 items-center justify-center'/>
+            <SocialIcon url="https://www.linkedin.com/in/shivam-jaiswal-54088a266/" className='h-8 w-8 text-zinc-300 items-center justify-center'/>
+            <SocialIcon url="https://twitter.com" className='h-8 w-8 text-zinc-300 items-center justify-center'/>
+            <SocialIcon url="https://instagram.com" className='h-8 w-8 text-zinc-300 items-center justify-center'/>
+            <SocialIcon url="https://youtube.com" className='h-8 w-8 text-zinc-300 items-center justify-center'/>
+        </div>
+        <div className='h-40 mt-20 border-l-2 border-zinc-600'></div>
+        <div className='w-1/2 h-40 mt-20 bg-zinc-900'>
+        <div className='flex flex-row'>
+          <div  className='mx-auto mb-md-0 mb-4 text-zinc-200 pt-2'>
+              <h6 className='font-bold mb-3 uppercase'>Useful links</h6>
+              <p>
+                <a href='/chat-ai' className='font-mono text-zinc-200 hover:text-blue-400'>
+                  Ask AI
+                </a>
+              </p>
+              <p>
+                <a href='/docsnote' className='font-mono text-zinc-200 hover:text-blue-400'>
+                  DocsNote
+                </a>
+              </p>
+              <p>
+                <a href='/calendar' className='font-mono text-zinc-200 hover:text-blue-400'>
+                  Calendar
+                </a>
+              </p>
+              <p>
+                <a href='/to-do' className='font-mono text-zinc-200 hover:text-blue-400'>
+                  Todo
+                </a>
+              </p>
+            </div>
+
+            <div  className='mx-auto mb-md-0 mb-4 text-white pt-2'>
+              <h6 className='font-bold mb-3 uppercase'>Contact</h6>
+              <p className='flex flex-row'>
+                <HomeIcon className='h-6 w-6 text-zinc-300 justify-center pr-2 items-end'/>
+                Mandi, Himachal Pradesh, India
+              </p>
+              <p className='flex flex-row'>
+              <MailIcon className='h-6 w-6 text-zinc-300 justify-center pr-2 items-end'/>
+                shivam181106@gmail.com
+              </p>
+              <p className='flex flex-row'>
+              <Phone className='h-6 w-6 text-zinc-300 justify-center pr-2 items-end'/> + 9628498661
+              </p>
+              <p className='flex flex-row'>
+              <TicketCheck className='h-6 w-6 text-zinc-300 justify-center pr-2 items-end'/> + 99999999999
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className='text-center p-4 bg-zinc-300 bottom-0 w-full'>
+        © 2024 Copyright  :
+        <a className='font-medium pl-2' href='https://mdbootstrap.com/'>
+          Note Corner
+        </a>
+      </div>
     </div>
 
   )
@@ -268,6 +394,60 @@ else{
         </Link>
       ))}
     </div>
+    <div className='w-full flex flex-row pt-72 '>
+        <div className='h-40 mt-20 border-l-2 border-zinc-600'></div>
+        <div className='w-full h-40 mt-20 bg-zinc-900'>
+        <div className='flex flex-row'>
+          <div  className='mx-auto mb-md-0 mb-4 text-zinc-200 pt-2'>
+              <h6 className='font-bold mb-3 uppercase'>Useful links</h6>
+              <p>
+                <a href='/chat-ai' className='font-mono text-zinc-200 hover:text-blue-400'>
+                  Ask AI
+                </a>
+              </p>
+              <p>
+                <a href='/docsnote' className='font-mono text-zinc-200 hover:text-blue-400'>
+                  DocsNote
+                </a>
+              </p>
+              <p>
+                <a href='/calendar' className='font-mono text-zinc-200 hover:text-blue-400'>
+                  Calendar
+                </a>
+              </p>
+              <p>
+                <a href='/to-do' className='font-mono text-zinc-200 hover:text-blue-400'>
+                  Todo
+                </a>
+              </p>
+            </div>
+
+            <div  className='mx-auto mb-md-0 mb-4 text-white pt-2'>
+              <h6 className='font-bold mb-3 uppercase'>Contact</h6>
+              <p className='flex flex-row'>
+                <HomeIcon className='h-6 w-6 text-zinc-300 justify-center pr-2 items-end'/>
+                Mandi, Himachal Pradesh, India
+              </p>
+              <p className='flex flex-row'>
+              <MailIcon className='h-6 w-6 text-zinc-300 justify-center pr-2 items-end'/>
+                shivam181106@gmail.com
+              </p>
+              <p className='flex flex-row'>
+              <Phone className='h-6 w-6 text-zinc-300 justify-center pr-2 items-end'/> + 9628498661
+              </p>
+              <p className='flex flex-row'>
+              <TicketCheck className='h-6 w-6 text-zinc-300 justify-center pr-2 items-end'/> + 99999999999
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className='text-center p-4 bg-zinc-300 bottom-0 w-full'>
+        © 2024 Copyright  :
+        <a className='font-medium pl-2' href='https://mdbootstrap.com/'>
+          Note Corner
+        </a>
+      </div>
     </div>
 
   )
