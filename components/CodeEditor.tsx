@@ -19,6 +19,7 @@ const CodeEditor =  ({setEditorContentprop,idprop,iniContent}:{setEditorContentp
   const restEdiCon=iniContent.substring(1);
   const [editorContent, setEditorContent] = useState(restEdiCon);
   const [token, setToken] = useState('');
+  const [running, setRunning] = useState(false);
   
   const [lang, setLang] = useState('');
   const handleEditorChange = (value: string) => {
@@ -43,7 +44,8 @@ const CodeEditor =  ({setEditorContentprop,idprop,iniContent}:{setEditorContentp
     const $ = cheerio.load(editorContent);
     const preContent = $('pre').text();
     const preContentBase64 = Buffer.from(preContent).toString('base64');
-    const { data : { data : { token } } } = await axios.post('http://localhost:3000/api/code/submission', {
+    setRunning(true);
+    const { data } = await axios.post('http://localhost:3000/api/code/submission', {
       languageId: lang,
       sourceCode: preContentBase64,
       input: terminalContent,
@@ -52,25 +54,31 @@ const CodeEditor =  ({setEditorContentprop,idprop,iniContent}:{setEditorContentp
         'Content-Type': 'application/json'
       }
     });
-    setToken(token);
+    console.log(data.data.token);
+    setToken(data.data.token);
   }
 
   const pollResponse = async (token : string) => {
-    const { data : { data : { stdout } } } = await axios.get(`http://localhost:3000/api/code/submission/${token}`,{
+    const { data  } = await axios.get(`http://localhost:3000/api/code/submission/${token}`,{
       headers: {
         'Content-Type': 'application/json'
       }
     });
+    setRunning(false);
+    const stdout = data.data.stdout;
     if (stdout) {
       if (stdout.charAt(stdout.length - 1) === '\n') {
         setTerminalContent(prev => prev+atob(stdout.slice(0, -1)));
       } else {
         setTerminalContent(prev => prev+atob(stdout));
       }
+    } else {
+      setTerminalContent(data.data.status.description);
     }
   }
 
   useEffect(() => {
+    console.log(token)
     if(token) {
       const interval = setTimeout(() => {
         pollResponse(token);
@@ -107,8 +115,10 @@ const CodeEditor =  ({setEditorContentprop,idprop,iniContent}:{setEditorContentp
         className='w-full flex-grow px-3 py-5 dark:text-white mb-0'
       />
       <div className='flex justify-center'>
-        <Button className='w-32 rounded-xl mr-2' onClick={runCode}>
-          Run Code
+        
+        <Button className='w-32 rounded-xl mr-2' onClick={runCode} disabled={running}>
+        {running && <div className='animate-spin rounded-full h-6 w-6 border-b-2 mr-2 border-white'></div>}
+          {running ? <div>Running</div> : <div>Run Code</div>}
         </Button>
       </div>
       <textarea
