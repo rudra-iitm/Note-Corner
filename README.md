@@ -1,6 +1,8 @@
 
 # Note Corner
 
+- Video Demo: https://drive.google.com/file/d/1noahnyg9g6vFVmgE9Przvo35iczilA1F/view?usp=sharing
+
 Our project is a comprehensive productivity web application designed to streamline various tasks and enhance user efficiency. Combining an array of features within a single platform, our web app serves as a versatile toolkit for users seeking a consolidated solution for productivity management.
 
 ## Key Features:
