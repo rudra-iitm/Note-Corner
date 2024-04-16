@@ -82,8 +82,8 @@ export default function DocsEditor() {
             <div className="w-full items-center justify-center flex mt-5"><div className="w-2/4"><Input placeholder="Enter the title of the document" className="w-full h-12  rounded p-2" onChange={(e)=>{setTitle(e.target.value);}}/></div></div>
         <div className='overflow-auto mx-10 mb-10 mt-2 border-2 border-zinc-800 p-4 rounded flex flex-col space-y-10 justify-start items-center min-h-[20rem]'>
             <div className="fixed flex flex-col top-80 left-[42px] space-y-2 justify-center items-center bg-white border-2 border-zinc-900 py-1 px-0">
-                <NotepadTextDashedIcon size={22} className='text-zinc-900 cursor-pointer' onClick={()=>{handleAddRichTextEditor(<RichTextEditor  idprop={count} setEditorContentprop={setEditorContent}/>);setCount(count+1);}}/>
-                <CodeSquare size={24} className='text-zinc-900 cursor-pointer' onClick={()=>{handleAddRichTextEditor(<CodeEditor  idprop={count} setEditorContentprop={setEditorContent}/>);setCount(count+1);}}  />
+                <NotepadTextDashedIcon size={22} className='text-zinc-900 cursor-pointer' onClick={()=>{handleAddRichTextEditor(<RichTextEditor  idprop={count} setEditorContentprop={setEditorContent} iniContent=""/>);setCount(count+1);}}/>
+                <CodeSquare size={24} className='text-zinc-900 cursor-pointer' onClick={()=>{handleAddRichTextEditor(<CodeEditor iniContent=""  idprop={count} setEditorContentprop={setEditorContent}/>);setCount(count+1);}}  />
             </div>
             <div className='w-fit h-12 flex flex-row justify-center items-center z-10 cursor-pointer'onClick={()=>{}} onMouseOver={()=>{setOpen(true);}}>
                 <GripVertical size={24} className='text-gray-500 p-0 m-0'/>
@@ -98,9 +98,9 @@ export default function DocsEditor() {
                     transition: {
                     duration: 0.3
                     }}}>
-                    <div className='flex flex-row items-center space-x-2 p-2 cursor-pointer hover:text-blue-600' onMouseOver={()=>{setOpen(true);setButton1(true);}} onMouseLeave={()=>{setButton1(false);}} onClick={()=>{handleAddRichTextEditor(<RichTextEditor  idprop={count} setEditorContentprop={setEditorContent}/>);setCount(count+1);}}><h1 className='font-mono'>Text Editor</h1><NotepadTextDashedIcon size={22} color={button1?"blue":"black"} className='text-gray-800'/></div>
+                    <div className='flex flex-row items-center space-x-2 p-2 cursor-pointer hover:text-blue-600' onMouseOver={()=>{setOpen(true);setButton1(true);}} onMouseLeave={()=>{setButton1(false);}} onClick={()=>{handleAddRichTextEditor(<RichTextEditor  iniContent="" idprop={count} setEditorContentprop={setEditorContent}/>);setCount(count+1);}}><h1 className='font-mono'>Text Editor</h1><NotepadTextDashedIcon size={22} color={button1?"blue":"black"} className='text-gray-800'/></div>
                     <div className='h-1 border-t border-zinc-300' onMouseOver={()=>{setOpen(true);}}></div>
-                    <div className='flex flex-row items-center space-x-2 p-2 cursor-pointer hover:text-blue-600' onMouseOver={()=>{setOpen(true); setButton2(true);}} onMouseLeave={()=>{setButton2(false);}} onClick={()=>{handleAddRichTextEditor(<CodeEditor  idprop={count} setEditorContentprop={setEditorContent}/>);setCount(count+1);}}><h1 className='font-mono'>Code Editor</h1><CodeSquare size={24} color={button2?"blue":"black"} className='text-gray-800'/></div>
+                    <div className='flex flex-row items-center space-x-2 p-2 cursor-pointer hover:text-blue-600' onMouseOver={()=>{setOpen(true); setButton2(true);}} onMouseLeave={()=>{setButton2(false);}} onClick={()=>{handleAddRichTextEditor(<CodeEditor iniContent="" idprop={count} setEditorContentprop={setEditorContent}/>);setCount(count+1);}}><h1 className='font-mono'>Code Editor</h1><CodeSquare size={24} color={button2?"blue":"black"} className='text-gray-800'/></div>
                 </motion.div>
             </div>
             <div onMouseOver={()=>{if(open)setOpen(false)}} className="min-h-[10rem] w-full h-fit flex flex-col space-y-6">

@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
             }
         }
         )
-        if(!user){return NextResponse.json({ message: "Unable to save !!" });}
+        if(!user){return NextResponse.json({ message: "Unable to save Docs !!" });}
         console.log(user);
         const docknotes = await client.docknotes.findFirst({
             where: {
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
                     DocknotesId:ds.id
                 }
             });
-            if(!docknote){return NextResponse.json({ message: "Unable to save !!" });}
+            if(!docknote){return NextResponse.json({ message: "Unable to save Docs !!" });}
             console.log(docknote);
             const Tarr=ds.docknotesids
             Tarr.push(docknote.id);
@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
                     docknotesids: Tarr
                 }
             });
-            return NextResponse.json({ message: "Event added" , id:docknote.id });
+            return NextResponse.json({ message: "Docs Created Successfully" , id:docknote.id });
             // const docknoteArray = 
         }
         else{
@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
             });
             // docknotes.
             // docknotes.docknote.push(docknote);
-            if(!docknote){return NextResponse.json({ message: "Unable to save !!" });}
+            if(!docknote){return NextResponse.json({ message: "Unable to save docs!!" });}
             console.log(docknote);
             const Tarr=docknotes.docknotesids
             Tarr.push(docknote.id);
@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
                 }
             });
             // docknotes.docknotesids.push(docknote.id);
-            return NextResponse.json({ message: "Event added" , id:docknote.id });
+            return NextResponse.json({ message: "Docs Created Successfully" , id:docknote.id });
         }
     }
 
