@@ -25,8 +25,8 @@ const Navbar = () => {
           </MenuItem>
           <MenuItem setActive={setActive} active={active} item="Workflows">
             <div className="flex flex-col space-y-4 text-sm">
-              <HoveredLink href="/book-ticket"><div className="flex flex-row space-x-2"><PlusSquare className="h-5 w-4"/> <h1>New Page</h1></div></HoveredLink>
-              <HoveredLink href="/train-search"><div className="flex flex-row space-x-2"><IconBrandTeams className="h-5 w-4"/> <h1>New Workspace</h1></div></HoveredLink>
+              <HoveredLink href="/docsnote"><div className="flex flex-row space-x-2"><PlusSquare className="h-5 w-4"/> <h1>New DocsNote</h1></div></HoveredLink>
+              <HoveredLink href="/workspace"><div className="flex flex-row space-x-2"><IconBrandTeams className="h-5 w-4"/> <h1>New Workspace</h1></div></HoveredLink>
             </div>
           </MenuItem>
           {
