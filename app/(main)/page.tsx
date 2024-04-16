@@ -9,9 +9,27 @@ import { SidebarDrawer } from "@/components/SidebarDrawer";
 import { ChatBot } from "@/components/ChatBot";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from "next/link";
 
 export default function Home() {
   const router = useRouter();
+  const features = [{
+    title: "Create Notes",
+    description: "Create notes with ease and convenience.",
+    image: "../../manage-tasks.png",
+    link: "/to-do",
+  },{
+    title: "Ask Ai",
+    description: "Ask Ai for help in problems.",
+    image: "../../ask-ai.png",
+    link: "/chat-ai",
+  },{
+    title: "Manage Events",
+    description: "Manage events on the calendar with ease",
+    image: "../../manage-events.png",
+    link: "/calendar",
+  }]
   // const textRef = useRef<HTMLElement | null>(null);
   const textRef = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({ target: textRef });
@@ -116,6 +134,22 @@ export default function Home() {
     </motion.div>
     <TypewriterEffectSmooth words={words} className="pb-0"/>
     <ChatBot/>
+    <h3 className="text-9xl mt-40">Features</h3>
+    <div className="w-full flex justify-between items-center gap-5 px-5 mt-20">
+      {features.map((feature, index) => (
+        <Link key={index} href={feature.link}>
+          <Card>
+            <CardHeader>
+              <CardTitle>{feature.title}</CardTitle>
+              <CardDescription>{feature.description}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <img src={feature.image} alt="logo" className="h-full w-full rounded-2xl p-2 "/>
+            </CardContent>
+          </Card>
+        </Link>
+      ))}
+    </div>
     </div>
   );
 }
