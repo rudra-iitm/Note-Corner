@@ -3,7 +3,7 @@
 import CodeEditor from "@/components/CodeEditor"
 import { Card, CardContent } from "@/components/ui/card"
 
-const Page = () => {
+const page = () => {
   return (
     <div>
     <Card className="h-auto w-96">
@@ -15,4 +15,4 @@ const Page = () => {
   )
 }
 
-export default Page
+export default page

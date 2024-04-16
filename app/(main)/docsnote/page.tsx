@@ -8,7 +8,7 @@ import { SidebarDrawer } from '@/components/SidebarDrawer';
 
 
 
-const Page = () => {
+const page = () => {
     const router = useRouter();
 
   const {status, data} = useSession();
@@ -24,4 +24,4 @@ const Page = () => {
   )
 }
 
-export default Page
+export default page

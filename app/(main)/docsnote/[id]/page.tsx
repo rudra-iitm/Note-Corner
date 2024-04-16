@@ -7,7 +7,7 @@ import { SidebarDrawer } from '@/components/SidebarDrawer';
 interface PageProps {
     params: { id: string };
 }
-const Page:React.FC<PageProps> = async({params}) => {
+const page:React.FC<PageProps> = async({params}) => {
     const { id } = params;
     console.log(id);
     const dock=await client.docknote.findFirst({
@@ -29,4 +29,4 @@ const Page:React.FC<PageProps> = async({params}) => {
     )
 }
 
-export default Page
+export default page

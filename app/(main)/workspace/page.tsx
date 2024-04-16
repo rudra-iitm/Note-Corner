@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import DocsEditor from '@/components/DocsEditor';
 import { SidebarDrawer } from '@/components/SidebarDrawer';
 
-const Page = () => {
+const page = () => {
     const router = useRouter();
 
   const {status } = useSession();
@@ -21,4 +21,4 @@ const Page = () => {
   )
 }
 
-export default Page
+export default page
