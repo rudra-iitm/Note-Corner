@@ -1,19 +1,35 @@
 'use client';
 import { ResponsivePie } from "@nivo/pie"
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 export function PieChartComponent() {
+
   return (
-    <PieChart className="w-full aspect-[1]" />
+    <PieChart className="w-full aspect-[1]"/>
   )
 }
 
-function PieChart(props: any) {
+export function PieChart( props: any, ) {
+  const [data, setData] = useState({completed: 100, incomplete: 0});
+
+  useEffect(() => {
+    async function fetchData() {
+      const {data} = await axios.get("/api/todos/stats");
+      console.log(data);
+      setData(data);
+    }
+
+    fetchData();
+
+  }, []);
+
   return (
     <div {...props}>
       <ResponsivePie
         data={[
-          { id: "Incomplete", value: 111 },
-          { id: "Completed", value: 157 },
+          { id: "Incomplete", value: data.incomplete },
+          { id: "Completed", value: data.completed },
         ]}
         sortByValue
         margin={{ top: 10, right: 10, bottom: 10, left: 10 }}

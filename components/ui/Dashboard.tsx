@@ -7,16 +7,18 @@ import { BarGraph } from '../bar-graph';
 import Profile_SVG from '@/public/profile.svg'
 import Image from 'next/image';
 import { IoLogInOutline } from "react-icons/io5";
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 
 const Dashboard = () => {
+    const session = useSession();
+
+    const email = session.data?.user?.email;
+
     const [active, setActive] = useState(false)
     const [collaborators, setCollaborators] = useState([{
-        name: 'John Doe',
-        email: 'example'
+        email: 'example1@gmail.com'
     }, {
-        name: 'Jane Doe',
-        email: 'example'
+        email: 'example2@gmail.com'
     }])
 
     // useEffect(() => {
@@ -43,10 +45,7 @@ const Dashboard = () => {
             </div>
             <div className='px-6 pt-6 pl-10'>
                 <CardDescription className='text-lg text-black font-medium'>
-                    Name: John Doe
-                </CardDescription>
-                <CardDescription className='text-lg text-black font-medium'>
-                    Email: example
+                    Email: {email}
                 </CardDescription>
             </div>
             <div className='flex '>
@@ -90,9 +89,6 @@ export const Collaborators = ( {list} : {list: any}) => {
         <Card className='p-4'>
             {list.map((item: any, index: any) => (
                 <div key={index} className='flex gap-6'>
-                    <div>
-                        {item.name}
-                    </div>
                     <div>
                         {item.email}
                     </div>
