@@ -50,9 +50,9 @@ const Sidebar = ({urll,toggleDrawer}: {urll:string,toggleDrawer: () => void}) =>
   }[]>([]);
   useEffect(() => {
     const getInvites = async () => {
-      const res = await axios.get("/api/user/invites");
-      console.log("data", res);
-      // setInvites(data?.data || []);
+      const { data : { Invite } } = await axios.get("/api/user/invites");
+      console.log("data",Invite);
+      setInvites(Invite.map(({senderEmail, docId}: {senderEmail: string, docId: string}) => ({senderEmail, receiverEmail : userEmail, docId})));
     }
     getInvites();
   }, [])
@@ -65,12 +65,6 @@ const Sidebar = ({urll,toggleDrawer}: {urll:string,toggleDrawer: () => void}) =>
     const senderId = res2.data.socketId;
     socket.emit("accept", { receiverEmail : userEmail, receiverId, senderEmail, senderId });
   }
-  useEffect(() => {
-    socket.on("invite", (data) => {
-      console.log("invitation",data);
-      setInvites(prev => [data, ...prev]);
-    });
-  }, []);
   return (
     <div>
         <div id="docs-sidebar" className="hs-overlay [--auto-close:lg] hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden fixed top-0 start-0 bottom-0 z-[60] w-64 bg-white border-e border-gray-200 pt-7 pb-10 overflow-y-auto sm:block sm:translate-x-0 sm:end-auto sm:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-slate-500 dark:bg-gray-800 dark:border-gray-700">
