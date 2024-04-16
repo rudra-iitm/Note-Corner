@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react'
+import React, { use, useState } from 'react'
 import "react-chat-elements/dist/main.css"
 import MessageComponent from './MessageComponent';
 import { Input } from './ui/input';
@@ -16,6 +16,24 @@ const Chat_ai = () => {
   const [message, setMessage] = useState([] as any);
   const [currentMsg, setCurrentMsg] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); 
+      handleButtonClick();
+    }
+  };
+
+  const handleButtonClick = async () => {
+    if (currentMsg == '') return;
+    setLoading(true);
+    setMessage((prev: any) => [...prev, {msg: currentMsg, sender: 'user'}])
+    setCurrentMsg('');
+    const data = await askAI(currentMsg);
+    setLoading(false);
+    setMessage((prev: any) => [...prev, {msg: data, sender: 'bot'}])
+  };
+
 
   return (
     <div>
@@ -43,14 +61,10 @@ const Chat_ai = () => {
             type="text"
             value={currentMsg}
             onChange={(e) => setCurrentMsg(e.target.value)}
+            onKeyPress={handleKeyPress}
           />
           <Button disabled={loading || currentMsg == ''} className={`rounded-full h-10`} onClick={async () => {
-            setLoading(true);
-            setMessage((prev: any) => [...prev, {msg: currentMsg, sender: 'user'}])
-            setCurrentMsg('');
-            const data = await askAI(currentMsg);
-            setLoading(false);
-            setMessage((prev: any) => [...prev, {msg: data, sender: 'bot'}])
+            await handleButtonClick();
           }}>
             <div className='flex items-center justify-center gap-2'>
               {loading ? <Loader size={'4'}/> : ''}
