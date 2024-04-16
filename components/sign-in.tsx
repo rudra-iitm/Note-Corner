@@ -37,7 +37,7 @@ export function SignIn() {
         password,
         redirect: false,
       });
-      console.log(res);
+      // console.log(res);
       if(res && res.error){
         toast({
           title: "Sign in failed!",
@@ -54,7 +54,7 @@ export function SignIn() {
       }
       
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       toast({
         title: "Sign in failed!",
         variant: "destructive",

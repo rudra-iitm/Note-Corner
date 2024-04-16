@@ -29,10 +29,10 @@ export default  function DocsById({props,title,content}:{props:string,title:stri
             "message":prevString
           })
           .then(function (response) {
-            console.log(response);
+            // console.log(response);
           })
           .catch(function (error) {
-            console.log(error);
+            // console.log(error);
           });
         }
     const [open, setOpen] = React.useState(false);
@@ -74,9 +74,9 @@ export default  function DocsById({props,title,content}:{props:string,title:stri
         if(newtitle===''){toast({
             title: "Title cannot be empty",
           });return;}
-        console.log(1);
+        // console.log(1);
         const res=await axios.post('/api/docs/modify', {"content":editorContent,"title":newtitle,"id":props});
-        console.log(res);
+        // console.log(res);
         if(!res.data.id)
         {
             toast({

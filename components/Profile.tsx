@@ -9,7 +9,7 @@ export default function Profile() {
     
     const handleLogout=()=>{   
         
-        console.log("logging out");
+        // console.log("logging out");
         signOut({
           redirect: true,
           callbackUrl:`${window.location.origin}/sign-in`

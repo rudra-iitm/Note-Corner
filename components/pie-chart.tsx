@@ -16,7 +16,7 @@ export function PieChart( props: any, ) {
   useEffect(() => {
     async function fetchData() {
       const {data} = await axios.get("/api/todos/stats");
-      console.log(data);
+      // console.log(data);
       setData(data);
     }
 

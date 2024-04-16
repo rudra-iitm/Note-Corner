@@ -18,14 +18,14 @@ export async function POST(req: NextRequest) {
 
         const { sourceCode, languageId, input } = await req.json();
 
-        console.log( languageId, input);
-        console.log(sourceCode);
+        // console.log( languageId, input);
+        // console.log(sourceCode);
         // const sourceCodeBase64 = Buffer.from(sourceCode).toString('base64');
         const inputBase64 = Buffer.from(input).toString('base64');
         // console.log(sourceCodeBase64, inputBase64);
       
 
-        console.log(process.env.JUDGE0_API_KEY, process.env.JUDGE0_API_HOST);
+        // console.log(process.env.JUDGE0_API_KEY, process.env.JUDGE0_API_HOST);
 
         const options = {
             method: 'POST',
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
           };
 
         const response = await axios.request(options);
-        console.log(response.data);
+        // console.log(response.data);
 
         return NextResponse.json({
             data: response.data,

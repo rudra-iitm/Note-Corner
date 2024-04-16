@@ -3,10 +3,9 @@ import client from "@/db";
 import { getServerSession } from "next-auth";
 
 export async function GET() {
-  return NextResponse.json("Hello World");
   const session = await getServerSession();
   const email = session?.user?.email || "";
-  console.log("email",email);
+  // console.log("email",email);
   const user = await client.user.findFirst({
     where: {
       email,
@@ -15,6 +14,6 @@ export async function GET() {
       Invite: true,
     }
   })
-  console.log("user",user);
+  // console.log("user",user);
   return NextResponse.json(user || null);
 }

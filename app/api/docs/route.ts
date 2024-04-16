@@ -5,11 +5,11 @@ import { getServerSession } from "next-auth";
 export async function POST(req: NextRequest) {
         const session = await getServerSession();
         const  {content,title}  = await req.json();
-        console.log(content,title);
+        // console.log(content,title);
         if(!content || !title){return NextResponse.json({ message: "No data Provided !!" });}
         // const stringifiedTodos = todos.map((todo: any) => JSON.stringify(todo));
         if(!session?.user?.email){return NextResponse.json({ message: "No user found !!" });}
-        console.log(session?.user?.email);
+        // console.log(session?.user?.email);
         const user = await client.user.findFirst({
             where: 
             {
@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
         }
         )
         if(!user){return NextResponse.json({ message: "Unable to save Docs !!" });}
-        console.log(user);
+        // console.log(user);
         const docknotes = await client.docknotes.findFirst({
             where: {
                 userId: user?.id || '',
@@ -31,13 +31,13 @@ export async function POST(req: NextRequest) {
         // console.log(docknotes);
         if(!docknotes)
         {
-            console.log(33);
+            // console.log(33);
             const ds=await client.docknotes.create({
                 data: {
                     userId: user.id,
                 }
             });   
-            console.log(ds);
+            // console.log(ds);
             const docknote=await client.docknote.create({
                 data:{
                     title:title,
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
                 }
             });
             if(!docknote){return NextResponse.json({ message: "Unable to save Docs !!" });}
-            console.log(docknote);
+            // console.log(docknote);
             const Tarr=ds.docknotesids
             Tarr.push(docknote.id);
             await client.docknotes.update({
@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
             // const docknoteArray = 
         }
         else{
-            console.log(44);
+            // console.log(44);
             const docknote=await client.docknote.create({
                 data:{
                     title:title,
@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
             // docknotes.
             // docknotes.docknote.push(docknote);
             if(!docknote){return NextResponse.json({ message: "Unable to save docs!!" });}
-            console.log(docknote);
+            // console.log(docknote);
             const Tarr=docknotes.docknotesids
             Tarr.push(docknote.id);
             await client.docknotes.update({
