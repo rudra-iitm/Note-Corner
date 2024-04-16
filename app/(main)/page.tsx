@@ -11,8 +11,21 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
+import io from "socket.io-client";
+import axios from "axios";
+
+export const socket = io("http://localhost:6969");
 
 export default function Home() {
+  const session = useSession();
+  const userEmail = session.data?.user?.email;
+  useEffect(() => {
+    const setSocketId = async () => {
+      await axios.post(`/api/user/setSocketId`, { email : userEmail, socketId : socket.id });
+    }
+    console.log("socket",socket, "email", userEmail);
+    setSocketId();
+  }, [socket, userEmail]);
   const router = useRouter();
   const features = [{
     title: "Create Notes",
