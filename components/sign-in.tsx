@@ -12,15 +12,18 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { useToast } from "./ui/use-toast";
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { Loader } from "./Chat_ai";
 
 export function SignIn() {
   const router = useRouter();
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [captcha, setCaptcha] = React.useState<string>("");
+  const [submitting, setSubmitting] = React.useState<boolean>(false);
   const { toast } = useToast();
   const handleSubmit =async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSubmitting(true);
     if(captcha===""){
       toast({
         title: "Please verify captcha",
@@ -107,7 +110,10 @@ export function SignIn() {
           type="submit"
           disabled={captcha===""}
         >
-          Login &rarr;
+          <div className="flex justify-center items-center gap-2">
+            <div>{submitting ? <Loader size="5"/> : null}</div>
+            Login &rarr;
+          </div>
           <BottomGradient />
         </button>
       </form>
