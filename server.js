@@ -1,4 +1,4 @@
-// console.log("Server is starting...");
+console.log("Server is starting...");
 
 import { createServer } from "node:http";
 import next from "next";
@@ -27,10 +27,10 @@ app.prepare().then(() => {
   });
 
   io.on("connection", (socket) => {
-    // console.log("a user connected", socket.id);
+    console.log("a user connected", socket.id);
     socket.on("invite", async (data) => {
       const { senderEmail, receiverEmail, receiverId, docId } = data;
-      // console.log("invite", senderEmail, receiverEmail, receiverId, docId);
+      console.log("invite", senderEmail, receiverEmail, receiverId, docId);
       io.to(receiverId).emit("invite", { senderEmail, receiverEmail, docId });
       await axios.post("http://localhost:3000/api/collabration/invite", {
         senderEmail,
@@ -40,7 +40,7 @@ app.prepare().then(() => {
     });
     socket.on("accept", async (data) => {
       const { senderEmail, receiverEmail, senderId, receiverId, docId } = data;
-      // console.log("accept", senderEmail, receiverEmail, senderId, receiverId, docId);
+      console.log("accept", senderEmail, receiverEmail, senderId, receiverId, docId);
       const room = docId;
       socket.join(room);
       io.sockets.sockets.get(receiverId).join(room);
@@ -66,6 +66,6 @@ app.prepare().then(() => {
       process.exit(1);
     })
     .listen(port, () => {
-      // console.log(`> Ready on http://${hostname}:${port}`);
+      console.log(`> Ready on http://${hostname}:${port}`);
     });
 });
