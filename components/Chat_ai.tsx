@@ -9,6 +9,8 @@ import { RiRobot2Fill } from "react-icons/ri";
 import { askAI } from '@/actions/ai';
 import { Skeleton } from './ui/skeleton';
 import { BotIcon } from 'lucide-react';
+import BOT_IMG from '@/public/chat_bot.svg';
+import Image from 'next/image';
 
 const Chat_ai = () => {
   const [message, setMessage] = useState([] as any);
@@ -23,6 +25,7 @@ const Chat_ai = () => {
           <h2 className="text-xl font-bold">Chat with our AI</h2>
         </CardHeader>
         <CardContent className="p-0">
+          {message.length == 0 && <Image src={BOT_IMG} alt="bot" className="w-full h-96 p-6 mt-16" />}
           <div className="flex flex-col gap-4 p-4">
             {message.map(({ msg, sender}: { msg: any, sender: string }, index: number) => (
               <MessageComponent key={index} chatofuser={sender === 'bot' ? false : true} content={msg}/>
