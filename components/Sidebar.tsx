@@ -15,6 +15,7 @@ import { title } from "process";
 import axios from "axios";
 import { PlusSquare, User } from "lucide-react";
 import { MdDraw } from "react-icons/md";
+import { color } from "framer-motion";
 
 const Sidebar = ({urll,toggleDrawer}: {urll:string,toggleDrawer: () => void}) => {
   const { data: session, status } = useSession();
@@ -73,8 +74,8 @@ const Sidebar = ({urll,toggleDrawer}: {urll:string,toggleDrawer: () => void}) =>
                 <Accordion type="single" collapsible className="py-0 px-2.5 gap-x-3.5 rounded-lg hover:bg-gray-100 dark:bg-gray-900 dark:text-white">
                     <AccordionItem value="item-1" className="border-0">
                         <AccordionTrigger className={`text-[13px] text-slate-700 font-normal py-2.5 my-0 ${notes.length === 0 ? 'hidden' : ''}`}>
-                        <a className="flex items-center gap-x-3.5 text-sm text-slate-700 rounded-lg dark:bg-gray-900 dark:text-white" href="#">
-                                <FaRegStickyNote className="size-4" />
+                        <a className={`flex items-center gap-x-3.5 text-sm rounded-lg dark:bg-gray-900 dark:text-white  ${urll==='docsnoteid'?'text-blue-500':'text-slate-700'}`} href="#">
+                                <FaRegStickyNote className="size-4"/>
                                 Notes
                         </a>
                             </AccordionTrigger>
