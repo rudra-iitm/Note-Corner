@@ -50,7 +50,7 @@ const page : React.FC<PageProps> = ({ params }) => {
         router.push("/sign-in");
     }
     const invite = async (receiverEmail : string) => {
-      const res1 = await axios.get(`/api/user/${receiverEmail}`);
+      const res1 = await axios.get(`/api/user/email/${receiverEmail}`);
       const receiverId = res1.data;
       socket.emit("invite", { receiverEmail, receiverId, senderEmail : userEmail, docId: id });
     }

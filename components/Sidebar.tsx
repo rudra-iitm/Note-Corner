@@ -59,9 +59,9 @@ const Sidebar = ({urll,toggleDrawer}: {urll:string,toggleDrawer: () => void}) =>
   const { data } = useSession();
   const userEmail = data?.user?.email;
   const acceptInvite = async (senderEmail : string) => {
-    const res1 = await axios.get(`/api/user/${userEmail}`);
+    const res1 = await axios.get(`/api/user/email/${userEmail}`);
     const receiverId = res1.data.socketId;
-    const res2 = await axios.get(`/api/user/${senderEmail}`);
+    const res2 = await axios.get(`/api/user/email/${senderEmail}`);
     const senderId = res2.data.socketId;
     socket.emit("accept", { receiverEmail : userEmail, receiverId, senderEmail, senderId });
   }
