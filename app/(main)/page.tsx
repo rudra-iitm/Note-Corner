@@ -4,7 +4,7 @@ import { TypewriterEffectSmooth } from "@/components/ACui/typewriter-effect";
 import { motion, useScroll, useTransform } from "framer-motion";
 import img2 from "@/public/img3.png";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SidebarDrawer } from "@/components/SidebarDrawer";
 import { ChatBot } from "@/components/ChatBot";
 import { useSession } from "next-auth/react";
@@ -30,6 +30,9 @@ export default function Home() {
     image: "../../manage-events.png",
     link: "/calendar",
   }]
+  const startHandler = () => {
+    router.push("/docsnote");
+  }
   // const textRef = useRef<HTMLElement | null>(null);
   const textRef = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({ target: textRef });
@@ -52,7 +55,20 @@ export default function Home() {
       className: "text-blue-500 dark:text-blue-500",
     },
   ];
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+  const [windowWidth, setWindowWidth] = useState<number>(0);
   useEffect(()=>{
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+    window.addEventListener('resize', handleResize);
+    setWindowWidth(window.innerWidth);
     const divAnimate=()=>{
       const inner = document.querySelector<HTMLDivElement>("#inner");
       const innerRect = inner?.getBoundingClientRect();
@@ -93,12 +109,14 @@ export default function Home() {
 
     };
     document.addEventListener("scroll", divAnimate);
-    return () => document.removeEventListener("scroll", divAnimate);
+    return () => {document.removeEventListener("scroll", divAnimate);window.removeEventListener('resize', handleResize);}
   },[])
-  return (
-    <div className="h-[100rem] w-full flex flex-col justify-start items-center pt-2 overflow-x-hidden">
+  if(windowSize.width>=1024)
+  {
+    return (
+    <div className="h-[100rem] w-full flex flex-col justify-start items-center pt-2 overflow-x-hidden -z-10">
       <SidebarDrawer urll="/"/>
-    <motion.div className='flex flex-row overflow-x-hidden overflow-y-hidden h-[39rem] -z-10' id='inner'>
+    <motion.div className='flex flex-row overflow-x-hidden overflow-y-hidden h-[39rem] z-20' id='inner'>
     <motion.div className="flex flex-col gap-7 items-center justify-center px-4 w-1/2 h-full" id='textEl'
         initial={{
           opacity: 0,
@@ -110,11 +128,11 @@ export default function Home() {
         transition: {
           duration: 0.7 // Animation duration
           }}}>
-          <h1 id="text1" className="text-black dark:text-white font-mono font-extrabold text-6xl">Note Corner</h1>
+          <h1 id="text1" className="text-black dark:text-white font-mono font-extrabold lg:text-6xl  md:text:5xl sm:text-4xl">Note Corner</h1>
           <p id="text2" className="dark:text-white text-3xl text-center font-bold "> Create, organize, collaborate.
           <br/>
           Empowered by Artificial Intelligence.</p>
-          <button id="start" onClick={()=>{}} style={{ boxShadow: "1px 1px 20px black, -1px -1px 20px black" }} className="py-3  text-lg font-semibold rounded-2xl cursor-pointer dark:text-white  px-8">Start</button>
+          <button id="start" onClick={()=>{startHandler();}} style={{ boxShadow: "1px 1px 20px black, -1px -1px 20px black" }} className="py-3  text-lg font-semibold rounded-2xl cursor-pointer dark:text-white  px-8">Start Creating Docs Now</button>
         </motion.div>
         <motion.div id="imgEl" className="h-full w-1/2 flex justify-center items-center m-4"
             initial={{
@@ -152,4 +170,93 @@ export default function Home() {
     </div>
     </div>
   );
+}else if(windowSize.width>=640){
+  return(
+    <div className="h-[100rem] w-full flex flex-col justify-start items-center pt-2 overflow-x-hidden -z-10">
+      <SidebarDrawer urll="/"/>
+    <motion.div className='flex flex-row overflow-x-hidden overflow-y-hidden h-[39rem] z-20'>
+    <motion.div className="flex flex-col gap-7 items-center justify-center px-4 w-full h-full"
+        initial={{
+          opacity: 0,
+          y: -100
+        }}
+        whileInView={{
+        opacity: 1,
+        y: 0, // Slide in to its original position
+        transition: {
+          duration: 0.7 // Animation duration
+          }}}>
+          <h1 id="text1" className="text-black dark:text-white font-mono font-extrabold lg:text-6xl  md:text:5xl sm:text-4xl text-4xl">Note Corner</h1>
+          <p id="text2" className="dark:text-white text-3xl text-center font-bold "> Create, organize, collaborate.
+          <br/>
+          Empowered by Artificial Intelligence.</p>
+          <button id="start" onClick={()=>{startHandler();}} style={{ boxShadow: "1px 1px 20px black, -1px -1px 20px black" }} className="py-3  text-lg font-semibold rounded-2xl cursor-pointer dark:text-white  px-8">Start Creating Docs Now</button>
+        </motion.div>
+      </motion.div>
+      <TypewriterEffectSmooth words={words} className="pb-0"/>
+      <ChatBot/>
+      <h3 className="text-5xl mt-40 font-bold font-serif">Features</h3>
+      <div className="w-full flex justify-between items-center gap-5 px-5 mt-20">
+        {features.map((feature, index) => (
+          <Link key={index} href={feature.link}>
+            <Card>
+            <CardHeader>
+              <CardTitle>{feature.title}</CardTitle>
+              <CardDescription>{feature.description}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <img src={feature.image} alt="logo" className="h-full w-full rounded-2xl p-2 "/>
+            </CardContent>
+          </Card>
+        </Link>
+      ))}
+    </div>
+    </div>
+
+  )
+}
+else{
+  return(
+    <div className="h-[150rem] w-full flex flex-col justify-start items-center pt-2 overflow-x-hidden -z-50">
+      <SidebarDrawer urll="/"/>
+    <motion.div className='flex flex-row overflow-x-hidden overflow-y-hidden h-[39rem] z-10'>
+    <motion.div className="flex flex-col gap-7 items-center justify-center px-4 w-full h-full"
+        initial={{
+          opacity: 0,
+          y: -100
+        }}
+        whileInView={{
+        opacity: 1,
+        y: 0, // Slide in to its original position
+        transition: {
+          duration: 0.7 // Animation duration
+          }}}>
+          <h1 id="text1" className="text-black dark:text-white font-mono font-extrabold lg:text-6xl  md:text:5xl sm:text-4xl text-4xl">Note Corner</h1>
+          <p id="text2" className="dark:text-white text-3xl text-center font-bold "> Create, organize, collaborate.
+          <br/>
+          Empowered by Artificial Intelligence.</p>
+          <button id="start" onClick={()=>{startHandler();}} style={{ boxShadow: "1px 1px 20px black, -1px -1px 20px black" }} className="py-3  text-lg font-semibold rounded-2xl dark:text-white px-8 z-50 cursor-pointer">Start Creating Docs Now</button>
+        </motion.div>
+      </motion.div>
+      <ChatBot/>
+      <h3 className="text-5xl mt-20 font-bold font-serif">Features</h3>
+      <div className="w-full flex justify-center items-center gap-5 px-5 mt-20 flex-col">
+        {features.map((feature, index) => (
+          <Link key={index} href={feature.link}>
+            <Card>
+            <CardHeader>
+              <CardTitle>{feature.title}</CardTitle>
+              <CardDescription>{feature.description}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <img src={feature.image} alt="logo" className="h-full w-full rounded-2xl p-2 "/>
+            </CardContent>
+          </Card>
+        </Link>
+      ))}
+    </div>
+    </div>
+
+  )
+}
 }
