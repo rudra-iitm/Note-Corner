@@ -1,5 +1,5 @@
 "use client";
-import  { useState } from "react";
+import  { useEffect, useState } from "react";
 import { HoveredLink, Menu, MenuItem} from "./ACui/navbar-menu";
 import { signOut } from "next-auth/react";
 import { Dock, List, Lock, LogIn, LogOutIcon, PlusSquare, Settings, SparkleIcon, UserIcon, UserPlus } from "lucide-react";
@@ -10,10 +10,28 @@ import { MdEventAvailable } from "react-icons/md";
 const Navbar = () => {
   // const [userDet,setUserDet]=useState("not authorised");
   const {status, data} = useSession();
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+  useEffect(()=>{
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    }
+  },[]);
 
   const [active, setActive] = useState<string | null>(null);
+  if(windowSize.width<600)
+    {return<div className="fixed top-0 inset-x-0 w-screen bg-zinc-300 h-32 z-30"></div>}
     return (
-        <div className="fixed top-6 inset-x-0 max-w-md mx-auto">
+        <div className="fixed top-6 inset-x-0 max-w-md mx-auto z-30">
         <Menu setActive={setActive}>
           <MenuItem setActive={setActive} active={active} item="Features">
             <div className="flex flex-col space-y-4 text-sm">
